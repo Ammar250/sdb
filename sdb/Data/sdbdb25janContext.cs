@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using sdb.Models;
 
-namespace sdb.Models
+namespace sdb.Data
 {
     public partial class sdbdb25janContext : DbContext
     {
@@ -22,14 +23,7 @@ namespace sdb.Models
         public virtual DbSet<SdbSystemUsers> SdbSystemUsers { get; set; }
         public virtual DbSet<SdbTransaction> SdbTransaction { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=sdb-db-25-jan;Integrated Security=true; Connect Timeout=30;");
-            }
-        }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -33,13 +33,7 @@ namespace sdb.Controllers
         }
         public IActionResult Details()
         {
-            CompaignModel model = new CompaignModel();
-            ViewBag.Compaign = model;
-            ViewBag.Pagetitle = "Compaign Details";
-            ViewBag["PageTitle"] = "";
-            model.Compaign_Name = "Cash for Poor";
-            model.Compaign_Description = "This is a compaign for poors to collect amount";
-            return View(model);
+            return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
