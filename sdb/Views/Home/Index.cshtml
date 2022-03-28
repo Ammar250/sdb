@@ -1,9 +1,10 @@
-﻿<html>
-<head>
-   
-</head>
+﻿@{ 
+    Layout = "../Shared/_Layout.cshtml";
 
-    <body>
+    ViewData["Title"] = "Home Page";
+
+}
+       <div class="main-content">
         <!-- Section: home -->
         <section id="home" class="divider">
             <div class="container-fluid p-0">
@@ -259,8 +260,8 @@
                 </div>
                 <!-- end .rev_slider_wrapper -->
             </div>
-        </section>
-       <script  type="text/javascript">
+            @section scripts{
+             <script  type="text/javascript">
           $(document).ready(function(e) {
             $(".rev_slider").revolution({
               sliderType:"standard",
@@ -350,7 +351,11 @@
             });
           });
         </script>
-        <!-- Slider Revolution Ends -->
-        </body>
-    </html>
+       
+             }
+             <!-- Slider Revolution Ends -->
+        </section>
+           </div>
+      
+       
         
