@@ -26,7 +26,7 @@ namespace sdb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<sdbdb25janContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConn")));
+            services.AddDbContext<SdbDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConn")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,10 +51,16 @@ namespace sdb
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "MyArea",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

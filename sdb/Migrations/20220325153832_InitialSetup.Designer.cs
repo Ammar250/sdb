@@ -9,7 +9,7 @@ using sdb.Data;
 
 namespace sdb.Migrations
 {
-    [DbContext(typeof(sdbdb25janContext))]
+    [DbContext(typeof(SdbDBContext))]
     [Migration("20220325153832_InitialSetup")]
     partial class InitialSetup
     {

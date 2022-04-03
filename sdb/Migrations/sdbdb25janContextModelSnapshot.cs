@@ -8,7 +8,7 @@ using sdb.Data;
 
 namespace sdb.Migrations
 {
-    [DbContext(typeof(sdbdb25janContext))]
+    [DbContext(typeof(SdbDBContext))]
     partial class sdbdb25janContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

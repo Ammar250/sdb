@@ -5,13 +5,13 @@ using sdb.Models;
 
 namespace sdb.Data
 {
-    public partial class sdbdb25janContext : DbContext
+    public partial class SdbDBContext : DbContext
     {
-        public sdbdb25janContext()
+        public SdbDBContext()
         {
         }
 
-        public sdbdb25janContext(DbContextOptions<sdbdb25janContext> options)
+        public SdbDBContext(DbContextOptions<SdbDBContext> options)
             : base(options)
         {
         }
