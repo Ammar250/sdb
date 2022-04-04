@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using sdb.Data;
+using sdb.Repository;
+using Newtonsoft.Json;
 
 namespace sdb
 {
@@ -27,6 +29,7 @@ namespace sdb
         {
             services.AddControllersWithViews();
             services.AddDbContext<SdbDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConn")));
+            services.AddScoped<ISDBRepository, SDBRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -354,6 +354,14 @@
                 });
               });
             </script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    @*var baseApplicationPath = '@Url.Content("~/")';
+                    setBaseUrl(baseApplicationPath);*@
+                    openLoginModal();
+                });
+
+            </script>
         }
         <!-- Slider Revolution Ends -->
     </section>
@@ -366,8 +374,6 @@
                 </div>
             <div class="col-sm-4"></div>
         </div>
-
-
 		 <div class="modal fade login" id="loginModal">
 		      <div class="modal-dialog login animated">
     		      <div class="modal-content">
@@ -377,40 +383,48 @@
                     </div>
                     <div class="modal-body">
                         <div class="box">
-                             <div class="content">
-                                
-                     
-                                <div class="error"></div>
+                            <div class="content">
+                                <div class="error">
+                                </div>
+                                <label class="form-check-label" id="lblloginError" style="display:none;">
+                                    Error Summary:
+                                </label>
                                 <div class="form loginBox">
                                     <form method="dialog" action="" accept-charset="UTF-8">
-                                    <input id="email" class="form-control" type="text" placeholder="Email" name="email">
-                                    <input id="password" class="form-control" type="password" placeholder="Password" name="password">
-                                    <input class="btn btn-default bg-theme-colored  btn-login" type="button" value="Login" onclick="loginAjax()">
+                                        <input id="email" class="form-control" type="text" placeholder="Email" name="email">
+                                        <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+                                        <input class="btn btn-default bg-theme-colored  btn-login" type="button" value="Login" onclick="loginAjax()">
                                     </form>
                                 </div>
-                             </div>
+                            </div>
                         </div>
                         <div class="box">
                             <div class="content registerBox" style="display:none;">
-                             <div class="form">
-                                <form method="dialog" html="{:multipart=>true}" data-remote="true" asp-controller="UserRegister" asp-action="Create" accept-charset="UTF-8">
-                                <input id="Name" class="form-control" type="text" placeholder="Name" name="name">
-                                <input id="Address" class="form-control" type="text" placeholder="Address" name="address">
-                                <input id="Phone" class="form-control" type="text" placeholder="Phone No" name="phone">
-                                <input id="email" class="form-control" type="text" placeholder="Email" name="email">
-                       
-                        
-                           <div class="form-group">
-                              Donor 
-                              @Html.RadioButtonFor(model => model.UserRole, "Donor")  
-                              NGO  
-                              @Html.RadioButtonFor(model => model.UserRole, "NGO") 
-                            </div>
-                         
-                                <input id="password" class="form-control" type="password" placeholder="Password" name="password">
-                                <input id="password_confirmation" class="form-control" type="password" placeholder="Repeat Password" name="password_confirmation">
-                                <input class="btn btn-default bg-theme-colored  btn-register" type="button" value="Create account" name="commit">
-                                </form>
+                                <label class="form-check-label" id="lblError" style="display:none;">
+                                    Error Summary:
+                                </label>
+                                <div class="form">
+                                    <form method="dialog" html="{:multipart=>true}" data-remote="true" accept-charset="UTF-8">
+                                        <input id="txtName" class="form-control" type="text" placeholder="Name" name="name"><span id="userNameSpan" style="color:red"></span>
+                                        <input id="txtAddress" class="form-control" type="text" placeholder="Address" name="address"><span id="userAddressSpan" style="color:red"></span>
+                                        <input id="txtPhone" class="form-control" type="text" placeholder="Phone No" name="phone"><span style="color:red" id="contactSpan"></span>
+                                        <input id="txtEmail" class="form-control" type="text" placeholder="Email" name="email"><span style="color:red" id="emailSpan"></span>
+                                        <br />
+                                        <label class="form-check-label" for="flexRadioDonor">
+                                            Role:
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="rbtnDonor">
+                                        <label class="form-check-label" for="flexRadioDonor">
+                                            Donor
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="rbtnNgo">
+                                        <label class="form-check-label" for="flexRadioNgo">
+                                            NGO
+                                        </label>
+                                        <input id="txtPassword" class="form-control" type="password" placeholder="Password" name="password"><span id="passwordSpan" style="color:red"></span>
+                                        <input id="txt_password_confirmation" class="form-control" type="password" placeholder="Repeat Password" name="password_confirmation"><span id="confirmPassSpan" style="color:red"></span>
+                                        <input id="btnCreateAccount" class="btn btn-default bg-theme-colored  btn-register" type="button" value="Create account" onclick="registerAjax()" name="commit">
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -430,13 +444,6 @@
 		      </div>
 		  </div>
     </div>
-   
-<script type="text/javascript">
-    $(document).ready(function(){
-        openLoginModal();
-    });
- 
-</script>
 
 
 

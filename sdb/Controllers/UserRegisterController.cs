@@ -38,17 +38,20 @@ namespace sdb.Controllers
 
         // POST: UserRegisterController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(SdbSystemUsers sdbSystemUsers)
+        public string Create(SdbSystemUsers sdbSystemUsers)
         {
             try
             {
                 sdbSystemUsers = _sdbRepository.Add(sdbSystemUsers);
-                return RedirectToAction(nameof(Index));  // HomeController index action method should be invoked
+                if (sdbSystemUsers != null)
+                {
+                    return "You have successfully registered yourself\nNow Please try login";
+                }
+                return "Error in User registration";
             }
             catch
             {
-                return View();
+                return "Error in User registration";
             }
         }
 
