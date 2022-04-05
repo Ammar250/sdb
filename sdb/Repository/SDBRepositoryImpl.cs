@@ -55,5 +55,19 @@ namespace sdb.Repository
             }
             return null;
         }
+        public SdbSystemUsers GetSdbSystemUser(SdbSystemUsers sdbSystemUsers)
+        {
+            try
+            {
+                // Select * From table where
+                
+                return sdbSystemUsers;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+            }
+            return null;
+        }
     }
 }

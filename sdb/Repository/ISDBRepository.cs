@@ -10,6 +10,6 @@ namespace sdb.Repository
     {
         SdbSystemUsers GetSdbSystemUser(string userEmail, string pasword);
         SdbSystemUsers Add(SdbSystemUsers sdbSystemUsers);
-
+        SdbSystemUsers GetSdbSystemUser(SdbSystemUsers sdbSystemUsers);
     }
 }

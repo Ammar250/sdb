@@ -54,6 +54,66 @@ function setBaseUrl(baseUrl) {
 }
 
 function loginAjax() {
+
+ if (!isValidUserEmail) {
+        userEmail = $("#txtEmail").val();
+        regualrExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+        isValidUserEmail = checkRegularExpressionControl(userEmail, "#emailSpan", regualrExp, "E-mail format Must Be (abc@abc.com) ");
+
+ } else if (!isValidUserPass) {
+        userPass = $("#txtPassword").val();
+        regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
+        isValidUserPass = checkRegularExpressionControl(userPass, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
+    } 
+
+ else {
+        //alert("Please Select User Role");
+        $("#lblError").css("display", "block");
+        $("#lblError").html("Invalid UserEmail or Password");
+        return;
+    } 
+
+ if (isValidUserName && isValidUserPass) {
+
+   $.ajax({
+
+            type: "Post",
+            url: "/Login/Get",
+            data: { Name: userEmail, Password: userPass },
+            success: function (data)  {
+                console.log(data);
+                if (data == "You have successfully login") {
+
+                    //alert("Save Successfully");
+                    //$(location).prop('href', "/Welcome_Survey_App_Page.aspx");
+                    openLoginModal();
+                    
+                    $("#lblloginError").css("display", "block");
+                    $("#lblloginError").html(data).show().fadeOut(20000);
+                } else {
+                    $("#lblError").css("display", "block");
+                    $("#lblError").html(data).show().fadeOut(20000);
+                }
+                
+            },
+
+            error: function (data) {
+                //alert(data.d);
+                console.log(data);
+                $("#lblError").css("display", "block");
+                $("#lblError").html(data.responseText).show().fadeOut(20000);
+            }
+
+        });
+    }
+   
+    
+
+
+
+
+
+
     /*   Remove this comments when moving to server
     $.post( "/login", function( data ) {
             if(data == 1){
