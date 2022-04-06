@@ -21,16 +21,16 @@ namespace sdb.Controllers
             return View();
             //How to Encode or Encrept Password in Asp.net core 
         }
-        [HttpGet]
-        public String Get(string userEmail, string password)
+        [HttpPost]
+        public String Get(SdbSystemUsers sdbSystemUsers)
         {
             
             try
             {
-                SdbSystemUsers sdbSystemUsers = _sdbRepository.GetSdbSystemUser(userEmail, password);
+                sdbSystemUsers = _sdbRepository.GetSdbSystemUser(sdbSystemUsers.Email, sdbSystemUsers.Password);
                 if (sdbSystemUsers != null)
                 {
-                    return "You have successfully Login ";
+                    return sdbSystemUsers.UserRole;
                 }
                 return "Error in User Login";
             }

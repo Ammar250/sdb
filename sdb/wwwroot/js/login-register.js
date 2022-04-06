@@ -55,42 +55,41 @@ function setBaseUrl(baseUrl) {
 
 function loginAjax() {
 
- if (!isValidUserEmail) {
-        userEmail = $("#txtEmail").val();
-        regualrExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-        isValidUserEmail = checkRegularExpressionControl(userEmail, "#emailSpan", regualrExp, "E-mail format Must Be (abc@abc.com) ");
+console.log("calling loginAjax");
 
- } else if (!isValidUserPass) {
-        userPass = $("#txtPassword").val();
-        regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
-        isValidUserPass = checkRegularExpressionControl(userPass, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
-    } 
+ //if (isValidUserName && isValidUserPass)
 
- else {
-        //alert("Please Select User Role");
-        $("#lblError").css("display", "block");
-        $("#lblError").html("Invalid UserEmail or Password");
-        return;
-    } 
+ {
 
- if (isValidUserName && isValidUserPass) {
+ userEmail = $("#email").val();
 
+userPass = $("#password").val();
+console.log("calling controller class action method " + userEmail + " " + userPass);
    $.ajax({
 
             type: "Post",
             url: "/Login/Get",
-            data: { Name: userEmail, Password: userPass },
+            data: { Email: userEmail, Password: userPass },
             success: function (data)  {
                 console.log(data);
-                if (data == "You have successfully login") {
+                if (data == "NGO") {
 
                     //alert("Save Successfully");
-                    //$(location).prop('href', "/Welcome_Survey_App_Page.aspx");
-                    openLoginModal();
+                    $(location).prop('href', "/Ngo/Home/Index");
                     
-                    $("#lblloginError").css("display", "block");
-                    $("#lblloginError").html(data).show().fadeOut(20000);
-                } else {
+                    
+                   
+                }
+
+                 else if(data =="DONOR") {
+
+                       $(location).prop('href', "/Donor/Home/Index");
+
+   
+
+
+
+ }else {
                     $("#lblError").css("display", "block");
                     $("#lblError").html(data).show().fadeOut(20000);
                 }
@@ -125,7 +124,7 @@ function loginAjax() {
     */
 
     /*   Simulate error message from the server   */
-    shakeModal();
+    //shakeModal();
 }
 
 function shakeModal(){
