@@ -9,6 +9,9 @@ var regualrExp = null;
 var isValidUserName = false, isValidUserPass = false;
 var isConfirmPass = false, isValidUserAddress = false;
 var isValidUserEmail = false, isValidUserCntct = false;
+let loginUserEmail = null;
+let loginUserPwd = null;
+let isLoginUserEmailValid = false, isLoginUserPwdValid = false;
 
 function showRegisterForm() {
     $('.loginBox').fadeOut('fast',function(){
@@ -55,85 +58,49 @@ function setBaseUrl(baseUrl) {
 
 function loginAjax() {
 
-console.log("calling loginAjax");
+    console.log("calling loginAjax");
+    if (!isLoginUserEmailValid) {
+        loginUserEmail = $("#email").val();
+        regualrExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+        isLoginUserEmailValid = checkRegularExpressionControl(loginUserEmail, "#emailSpan", regualrExp, "E-mail format Must Be (abc@abc.com) ");
+    }
 
- //if (isValidUserName && isValidUserPass)
+    if (!isLoginUserPwdValid) {
+        loginUserPwd = $("#password").val();
+        regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
+        isLoginUserPwdValid = checkRegularExpressionControl(loginUserPwd, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
+    }
 
- {
-
- userEmail = $("#email").val();
-
-userPass = $("#password").val();
-console.log("calling controller class action method " + userEmail + " " + userPass);
-   $.ajax({
-
+    if (isLoginUserEmailValid && isLoginUserPwdValid) {
+        console.log("calling controller class action method " + loginUserEmail + " " + loginUserPwd);
+        $.ajax({
             type: "Post",
             url: "/Login/Get",
-            data: { Email: userEmail, Password: userPass },
-            success: function (data)  {
+            data: { Email: loginUserEmail, Password: loginUserPwd },
+            success: function (data) {
                 console.log(data);
                 if (data == "NGO") {
-
-                    //alert("Save Successfully");
                     $(location).prop('href', "/Ngo/Home/Index");
-                    
-                    
-                   
+                }
+                else if (data == "DONOR") {
+                    $(location).prop('href', "/Donor/Home/Index");
+                } else {
+                    $("#lblloginError").css("display", "block");
+                    $("#lblloginError").html(data).show().fadeOut(20000);
                 }
 
-                 else if(data =="DONOR") {
-
-                       $(location).prop('href', "/Donor/Home/Index");
-
-   
-
-
-
- }else {
-                    $("#lblError").css("display", "block");
-                    $("#lblError").html(data).show().fadeOut(20000);
-                }
-                
             },
-
             error: function (data) {
-                //alert(data.d);
                 console.log(data);
-                $("#lblError").css("display", "block");
-                $("#lblError").html(data.responseText).show().fadeOut(20000);
+                $("#lblloginError").css("display", "block");
+                $("#lblloginError").html(data.responseText).show().fadeOut(20000);
             }
 
         });
+    } else {
+        $("#lblloginError").css("display", "block");
+        $("#lblloginError").html("Please Enter User email and Password").show().fadeOut(20000);
     }
-   
-    
-
-
-
-
-
-
-    /*   Remove this comments when moving to server
-    $.post( "/login", function( data ) {
-            if(data == 1){
-                window.location.replace("/home");            
-            } else {
-                 shakeModal(); 
-            }
-        });
-    */
-
-    /*   Simulate error message from the server   */
-    //shakeModal();
-}
-
-function shakeModal(){
-    $('#loginModal .modal-dialog').addClass('shake');
-             $('.error').addClass('alert alert-danger').html("Invalid email/password combination");
-             $('input[type="password"]').val('');
-             setTimeout( function(){ 
-                $('#loginModal .modal-dialog').removeClass('shake'); 
-    }, 1000 ); 
 }
 
 
@@ -245,6 +212,22 @@ $(document).ready(function () {
             $("#rbtnDonor").prop('checked', false);
         }
 
+    });
+
+
+    // Login fields Validations
+    $("#email").focusout(function () {
+
+        loginUserEmail = $("#email").val();
+        regualrExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+        isLoginUserEmailValid = checkRegularExpressionControl(loginUserEmail, "#emailSpan", regualrExp, "E-mail format Must Be (abc@abc.com) ");
+    });
+
+    $("#password").focusout(function () {
+
+        loginUserPwd = $("#password").val();
+        regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
+        isLoginUserPwdValid = checkRegularExpressionControl(loginUserPwd, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
     });
 });
 

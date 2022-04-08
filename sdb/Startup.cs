@@ -59,10 +59,9 @@ namespace sdb
                 //    name: "default",
                 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-                   name: "NgoArea",
-                   areaName: "Ngo",
-                   pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                   name: "SDBArea",
+                   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
 
         }
