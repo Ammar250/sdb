@@ -44,49 +44,6 @@
 </head>
 <body class="has-side-panel side-panel-right fullwidth-page side-push-panel">
     <div class="body-overlay"></div>
-    <div id="side-panel" class="dark" data-bg-img="images/bg/bg8.jpg">
-        <div class="side-panel-wrap">
-            <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon_close font-30"></i></a></div>
-            <a href="javascript:void(0)"><img alt="logo" src="images/logo-wide.png"></a>
-            <div class="side-panel-nav mt-30">
-                <div class="widget no-border">
-                    <nav>
-                        <ul class="nav nav-list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li>
-                                <a class="tree-toggler nav-header">Pages <i class="fa fa-angle-down"></i></a>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Terms</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="side-panel-widget mt-30">
-                <div class="widget no-border">
-                    <ul>
-                        <li class="font-14 mb-5"> <i class="fa fa-phone text-theme-colored"></i> <a href="#" class="text-gray">123-456-789</a> </li>
-                        <li class="font-14 mb-5"> <i class="fa fa-clock-o text-theme-colored"></i> Mon-Fri 8:00 to 2:00 </li>
-                        <li class="font-14 mb-5"> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="#" class="text-gray">contact@yourdomain.com</a> </li>
-                    </ul>
-                </div>
-                <div class="widget">
-                    <ul class="styled-icons icon-dark icon-theme-colored icon-sm">
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    </ul>
-                </div>
-                <p>Copyright &copy;2016 ThemeMascot</p>
-            </div>
-        </div>
-    </div>
     <div id="wrapper" class="clearfix">
         <!-- preloader -->
         <div id="preloader">
@@ -103,58 +60,25 @@
             <div class="header-top bg-theme-colored sm-text-center">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="widget no-border m-0">
-                                @*<ul class="list-inline sm-text-center mt-5">
-
-        </ul>*@
                                 <div class="col-xs-12 col-sm-4 col-md-5">
                                     <div class="widget no-border m-0">
                                         <a class="menuzord-brand xs-pull-center mb-15" href="javascript:void(0)"><img src="images/logo-wide-white.png" alt=""></a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            @*<div id="side-panel-trigger" class="side-panel-trigger pull-right sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>*@
                             <div class="widget no-border m-0">
-                                <ul class="list-inline sm-text-center mt-5 pull-right sm-pull-none sm-text-center">
+                                <ul style="padding:5vh" class="list-inline mt-5 pull-right sm-pull-none sm-text-center">
                                     <li>
-                                       <a class="text-white" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Log in</a>
+                                        <a class="text-white" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Log in</a>
                                     </li>
                                     <li class="text-white">|</li>
                                     <li>
-                                       <a class="text-white" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a>
-                                    </li>
-                                    <li class="text-white">|</li>
-                                    <li>
-                                        <a href="#" class="text-white">Support</a>
+                                        <a class="text-white" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a>
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-middle p-0 bg-lightest xs-text-center">
-                <div class="container pt-0 pb-0">
-                    <div class="row">
-                        @*<div class="col-xs-12 col-sm-4 col-md-4">
-                            <div class="widget no-border m-0">
-                                <div class="mt-10 mb-10 text-right sm-text-center">
-                                    <div class="font-20 text-black-333 text-uppercase mb-5 font-weight-600"><i class="fa fa-phone-square text-theme-colored font-24"></i> +(012) 345 6789</div>
-                                    <a class="font-12 text-gray" href="#">Call us for more details!</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-3">
-                            <div class="widget no-border m-0">
-                                <div class="mt-10 mb-10 text-right sm-text-center">
-                                    <div class="font-20 text-black-333 text-uppercase mb-5 font-weight-600"><i class="fa fa-envelope text-theme-colored font-24"></i> Mail us today</div>
-                                    <a class="font-12 text-gray" href="#"> info@yourdomain.com</a>
-                                </div>
-                            </div>
-                        </div>*@
                     </div>
                 </div>
             </div>
@@ -200,7 +124,7 @@
             <!-- JS | jquery plugin collection for this theme -->
             <script src="~/lib/js/jquery-plugin-collection.js"></script>
             <script src="~/lib/js/custom.js"></script>
-            <script src="~/js/bootstrap.js" type="text/javascript"></script>
+            @*<script src="~/js/bootstrap.js" type="text/javascript"></script>*@
 	        <script src="~/js/login-register.js" type="text/javascript"></script>
 
             <!-- Revolution Slider 5.x SCRIPTS -->
