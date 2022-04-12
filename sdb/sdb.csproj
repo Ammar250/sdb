@@ -24,6 +24,7 @@
     <Folder Include="Areas\Donor\Models\" />
     <Folder Include="Areas\Ngo\Data\" />
     <Folder Include="Areas\Ngo\Models\" />
+    <Folder Include="Areas\Ngo\Views\Campaign\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
 

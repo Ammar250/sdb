@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+                                                             
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="CharityFund - Charity & Crowdfunding HTML Template" />
+    <meta name="keywords" content="building,business,construction,cleaning,transport,workshop" />
+    <title>@ViewData["Title"] - sdb</title>
+    <link href="~/images/favicon.png" rel="shortcut icon" type="image/png">
+    <link href="~/images/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="~/images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+    <link href="~/images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+    <link href="~/images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+    
+    
+    <link href="~/lib/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/css/animate.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/css/css-pugin-collections.css" rel="stylesheet" />
+    <!-- CSS | menuzord megamenu skins -->
+    <link id="menuzord-menu-skins" href="~/lib/css/menuzord-skins/menuzord-boxed.css" rel="stylesheet" />
+    <!-- CSS | Main style file -->
+    <link href="~/lib/css/style-main.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Preloader Styles -->
+    <link href="~/lib/css/preloader.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Custom Margin Padding Collection -->
+    <link href="~/lib/css/custom-bootstrap-margin-padding.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Responsive media queries -->
+    <link href="~/lib/css/responsive.css" rel="stylesheet" type="text/css">
+    <!-- Revolution Slider 5.x CSS settings -->
+    <link href="~/lib/js/revolution-slider/css/settings.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/js/revolution-slider/css/layers.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/js/revolution-slider/css/navigation.css" rel="stylesheet" type="text/css" />
+    <!-- CSS | Theme Color -->
+    <link href="~/lib/css/colors/theme-skin-yellow.css" rel="stylesheet" type="text/css">
+   <!-- <link rel="stylesheet" href="~/css/site.css" />-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+
+	<link href="~/css/login-register.css" rel="stylesheet" />
+    
+    
+</head>
+<body class="has-side-panel side-panel-left fullwidth-page side-push-panel">
+    
+    <div class="body-overlay"></div>
+    <div id="side-panel" class="dark" data-bg-img="images/bg/bg8.jpg">
+        <div class="side-panel-wrap">
+            <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon_close font-30"></i></a></div>
+            <a href="javascript:void(0)"><img alt="logo" src="images/logo-wide.png"></a>
+            <div class="side-panel-nav mt-30">
+                <div class="widget no-border">
+                    <nav>
+                        <ul class="nav nav-list">
+                            <li><a href="/Ngo/Home/Index">Home</a></li>
+                            <li><a href="/Ngo/Campign/Index">Manage Campaign</a></li>
+                            <li>
+                                <a class="tree-toggler nav-header">Pages <i class="fa fa-angle-down"></i></a>
+                                <ul class="nav nav-list tree">
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Terms</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="side-panel-widget mt-30">
+                
+               
+                <p>Copyright &copy;2016 ThemeMascot</p>
+            </div>
+        </div>
+    </div>
+    
+<div id="wrapper" class="clearfix">
+  <!-- preloader -->
+  <div id="preloader">
+    <div id="spinner">
+      <div class="preloader-dot-loading">
+        <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+    <div id="disable-preloader" class="btn btn-default btn-sm">Disable Preloader</div>
+  </div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top bg-theme-colored sm-text-center">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="side-panel-trigger" class="side-panel-trigger pull-left sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>
+            
+            </div>
+            <div class="col-md-12">
+                <div class="widget no-border m-0">
+                    <ul class="list-inline sm-text-center mt-5 pull-right sm-pull-none sm-text-center">
+                        <li>
+                            @Html.Label("LoggedInUserName","User Name")
+                        </li>
+                        <li>
+                            <a class="text-white" href="#" >Logout</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </div>
+                
+            </div>
+        </div>
+          <div class="row">
+              
+          </div>
+      </div>
+    </div>
+  </header>
+    </div>
+
+       
+        @*<div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>*@
+
+        @RenderBody()
+    
+
+           
+
+
+            <script src="~/lib/js/jquery-2.2.0.min.js"></script>
+            <script src="~/lib/js/bootstrap.min.js"></script>
+            <script src="~/lib/js/jquery-ui.min.js"></script>
+            <!-- JS | jquery plugin collection for this theme -->
+            <script src="~/lib/js/jquery-plugin-collection.js"></script>
+            <script src="~/lib/js/custom.js"></script>
+            <script src="~/js/bootstrap.js" type="text/javascript"></script>
+	        <script src="~/js/login-register.js" type="text/javascript"></script>
+
+            <!-- Revolution Slider 5.x SCRIPTS -->
+            <script src="~/lib/js/revolution-slider/js/jquery.themepunch.tools.min.js"></script>
+            <script src="~/lib/js/revolution-slider/js/jquery.themepunch.revolution.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.actions.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.carousel.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.kenburn.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.layeranimation.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.migration.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.navigation.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.parallax.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
+            <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.video.min.js"></script>
+
+
+            @RenderSection("Scripts", required: false)
+</body>
+</html>
