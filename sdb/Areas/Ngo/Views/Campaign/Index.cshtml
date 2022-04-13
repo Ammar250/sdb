@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<sdb.Models.SdbCompaigns>
 
 @{
-    ViewData["Title"] = "Smart Donation Box NGO";
+    ViewData["Title"] = "Campaigns";
     Layout = "~/Areas/Ngo/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Smart Donation Box NGO</h2>
+<h2>Smart Donation Box Campagin List</h2>
 
 <p>
-    <a class="btn btn-success bg-theme-colored " style="margin-bottom:10px" href='Ngo/Home/AddOrEdit'><i class="fa fa-plus"></i> Add New</a>
+    <a class="btn btn-success bg-theme-colored" style="margin-bottom:10px" href="Ngo/Home/AddOrEdit"><i class="fa fa-plus"></i> Add New</a>
 </p>
 <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
     <thead>
@@ -17,19 +17,25 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.CompaignPurpose)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserRole)
+                @Html.DisplayNameFor(model => model.TotalAmountNeeded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CollectedAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
@@ -57,19 +63,25 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Password)
+                    @Html.DisplayFor(modelItem => item.Image)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Address)
+                    @Html.DisplayFor(modelItem => item.CompaignPurpose)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.UserId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserRole)
+                    @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CollectedAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -86,17 +98,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Active)
                 </td>
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>*@
             </tr>
         }
     </tbody>
 </table>
 @section scripts{
-<script>
+    <script>
     $(document).ready(function(){
 
-        $("#Campaigntbl").DataTable();  
+        $("#Campaigntbl").DataTable();
 
     });
-</script>
-} 
-
+    </script>
+}
