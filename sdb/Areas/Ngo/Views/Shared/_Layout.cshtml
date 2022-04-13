@@ -18,7 +18,7 @@
     <link href="~/lib/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/css/animate.css" rel="stylesheet" type="text/css">
-    <link href="~/lib/css/css-pugin-collections.css" rel="stylesheet" />
+    <link href="~/lib/css/css-plugin-collections.css" rel="stylesheet" />
     <!-- CSS | menuzord megamenu skins -->
     <link id="menuzord-menu-skins" href="~/lib/css/menuzord-skins/menuzord-boxed.css" rel="stylesheet" />
     <!-- CSS | Main style file -->
@@ -71,60 +71,47 @@
         </div>
     </div>
     
-<div id="wrapper" class="clearfix">
-  <!-- preloader -->
-  <div id="preloader">
-    <div id="spinner">
-      <div class="preloader-dot-loading">
-        <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
-    <div id="disable-preloader" class="btn btn-default btn-sm">Disable Preloader</div>
-  </div>
-  
-  <!-- Header -->
-  <header class="header">
-    <div class="header-top bg-theme-colored sm-text-center">
-      <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div id="side-panel-trigger" class="side-panel-trigger pull-left sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>
-                <div class="widget no-border m-0">
-                    <ul class="list-inline sm-text-center mt-5 pull-right sm-pull-none sm-text-center">
-                        <li>
-                            @Html.Label("LoggedInUserName","User Name")
-                        </li>
-                        <li>
-                            <a class="text-white" href="#" >Logout</a>
-                        </li>
-                        
-                    </ul>
-                    
+    <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        <div id="preloader">
+            <div id="spinner">
+                <div class="preloader-dot-loading">
+                    <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
                 </div>
-                
             </div>
+            <div id="disable-preloader" class="btn btn-default btn-sm">Disable Preloader</div>
         </div>
-          <div class="row">
-              
-          </div>
-      </div>
-    </div>
-  </header>
-    </div>
 
-       
-        @*<div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>*@
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top bg-theme-colored sm-text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="side-panel-trigger" class="side-panel-trigger pull-left sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>
+                            <div class="widget no-border m-0">
+                                <ul class="list-inline sm-text-center mt-5 pull-right sm-pull-none sm-text-center">
+                                    <li>
+                                        @Html.Label("LoggedInUserName", "User Name")
+                                    </li>
+                                    <li>
+                                        <a class="text-white" href="#">Logout</a>
+                                    </li>
 
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+        </header>
         @RenderBody()
-    
-
-           
-
-
+    </div>
             <script src="~/lib/js/jquery-2.2.0.min.js"></script>
             <script src="~/lib/js/bootstrap.min.js"></script>
             <script src="~/lib/js/jquery-ui.min.js"></script>
