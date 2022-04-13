@@ -36,44 +36,38 @@
     <!-- CSS | Theme Color -->
     <link href="~/lib/css/colors/theme-skin-yellow.css" rel="stylesheet" type="text/css">
    <!-- <link rel="stylesheet" href="~/css/site.css" />-->
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    @*<link href="~/css/bootstrap.css" rel="stylesheet" />*@
 
 	<link href="~/css/login-register.css" rel="stylesheet" />
+    <link href="~/lib/css/datatables.min.css" rel="stylesheet"/>
     
     
 </head>
 <body class="has-side-panel side-panel-left fullwidth-page side-push-panel">
     
     <div class="body-overlay"></div>
-    <div id="side-panel" class="dark" data-bg-img="images/bg/bg8.jpg">
+    <div id="side-panel" class="dark">
         <div class="side-panel-wrap">
             <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon_close font-30"></i></a></div>
-            <a href="javascript:void(0)"><img alt="logo" src="images/logo-wide.png"></a>
+            <a href="javascript:void(0)"><img alt="logo" src="~/images/logo-wide.png"></a>
             <div class="side-panel-nav mt-30">
                 <div class="widget no-border">
                     <nav>
                         <ul class="nav nav-list">
                             <li><a href="/Ngo/Home/Index">Home</a></li>
-                            <li><a href="/Ngo/Campign/Index">Manage Campaign</a></li>
-                            <li>
-                                <a class="tree-toggler nav-header">Pages <i class="fa fa-angle-down"></i></a>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Terms</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="/Ngo/Campaign/Index">Manage Campaign</a></li>
+                            
+                            
                         </ul>
                     </nav>
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="side-panel-widget mt-30">
+            @*<div class="side-panel-widget mt-30">
                 
                
                 <p>Copyright &copy;2016 ThemeMascot</p>
-            </div>
+            </div>*@
         </div>
     </div>
     
@@ -93,11 +87,8 @@
     <div class="header-top bg-theme-colored sm-text-center">
       <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <div id="side-panel-trigger" class="side-panel-trigger pull-left sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>
-            
-            </div>
             <div class="col-md-12">
+                <div id="side-panel-trigger" class="side-panel-trigger pull-left sm-pull-none mt-5"><a href="#"><i class="fa fa-bars font-24 text-white"></i></a></div>
                 <div class="widget no-border m-0">
                     <ul class="list-inline sm-text-center mt-5 pull-right sm-pull-none sm-text-center">
                         <li>
@@ -140,7 +131,7 @@
             <!-- JS | jquery plugin collection for this theme -->
             <script src="~/lib/js/jquery-plugin-collection.js"></script>
             <script src="~/lib/js/custom.js"></script>
-            <script src="~/js/bootstrap.js" type="text/javascript"></script>
+            @*<script src="~/js/bootstrap.js" type="text/javascript"></script>*@
 	        <script src="~/js/login-register.js" type="text/javascript"></script>
 
             <!-- Revolution Slider 5.x SCRIPTS -->
@@ -155,6 +146,7 @@
             <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.parallax.min.js"></script>
             <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
             <script type="text/javascript" src="~/lib/js/revolution-slider/js/extensions/revolution.extension.video.min.js"></script>
+            <script src="~/lib/js/datatables.min.js" type="text/javascript"></script>
 
 
             @RenderSection("Scripts", required: false)
