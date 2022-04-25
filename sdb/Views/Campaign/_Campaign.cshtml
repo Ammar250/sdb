@@ -1,0 +1,34 @@
+﻿@model sdb.Models.SdbCompaigns
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.Image)
+        
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.CompaignPurpose)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.UserId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.TotalAmountNeeded)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.CollectedAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => @Model.Status)
+    </td>
+    @*
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
+</tr>
