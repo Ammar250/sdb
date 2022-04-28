@@ -10,6 +10,12 @@
     <div class="container invisible" id="divAddEditView">
 
     </div>
+    <div class="container invisible" id="divEditView">
+
+    </div>
+    <div class="container invisible" id="divDeleteView">
+
+    </div>
     @*<a class="btn btn-success bg-theme-colored" style="margin-bottom:10px" asp-action="AddOrEdit"><i class="fa fa-plus"></i> Add New</a>*@
     
 
@@ -25,6 +31,19 @@
 
 
         </form>
+        <form asp-action="EditCampaign"
+            data-ajax="true"
+            data-ajax-update="#divEditView"
+            data-ajax-success="showEditCampaignViewForm()">
+
+        </form>
+        <form asp-action="DeleteCampaign"
+            data-ajax="true"
+            data-ajax-update="#divDeleteView"
+            data-ajax-success="showDeleteCampaignViewForm()">
+
+        </form>
+        
         <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
@@ -115,11 +134,34 @@
         function closeAddEditViewForm(){
             $("#divAddEditView").addClass("invisible");
             $("#divAddEditView").removeClass("visible");
+            $("#addCampaignFormdiv").remove();
 
             $("#CampaignsContainer").addClass("visible");
             $("#CampaignsContainer").removeClass("invisible");
 
         }
+
+        function showEditCampaignViewForm(){
+            $("#divEditView").addClass("visible");
+            $("#divEditView").removeClass("invisible");
+
+
+            $("#CampaignsContainer").addClass("invisible");
+            $("#CampaignsContainer").removeClass("visible");
+        
+
+        }
+
+        function closeEditCampaignViewForm(){
+            $("#divEditView").addClass("invisible");
+            $("#divEditView").removeClass("visible");
+
+            $("#CampaignsContainer").addClass("visible");
+            $("#CampaignsContainer").removeClass("invisible");
+
+        }
+
+
 
 
 

@@ -56,5 +56,29 @@ namespace sdb.Areas.Ngo.Controllers
             _db.SaveChanges();
             return PartialView("_Campaign",sdbCampaigns);
         }
+        public IActionResult EditCampaign(int id=0)
+        {
+            if (id != 0)
+                return PartialView(new SdbCompaigns());
+            else
+            {
+                return PartialView(_db.SdbCompaigns.Where(x => x.Id == id).FirstOrDefault<SdbCompaigns>());
+
+            }
+            
+        }
+        public IActionResult DeleteCampaign(int id=0)
+        {
+            if (id != 0)
+                return PartialView(new SdbCompaigns());
+            else
+            {
+                return PartialView(_db.SdbCompaigns.Where(x => x.Id == id).FirstOrDefault<SdbCompaigns>());
+
+            }
+            
+        }
     }
+
+    
 }
