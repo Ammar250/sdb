@@ -21,7 +21,7 @@ namespace sdb.Areas.Ngo.Controllers
         {
             int userId = 1; // TODO: we need to get userid from session
             var displaydata = _db.SdbCompaigns.Where(x => x.UserId == userId).ToList<SdbCompaigns>();
-            return View(displaydata);   
+            return View(displaydata) ;   
         }
         [HttpGet]
         public IActionResult GetAllNGOCampaigns(int userId)
@@ -41,7 +41,7 @@ namespace sdb.Areas.Ngo.Controllers
 
             }
         }
-        public IActionResult AddCampaign(SdbCompaigns sdbCampaigns)
+        public void _Campaign(SdbCompaigns sdbCampaigns)
         {
 
             sdbCampaigns.CompaignPurpose = "default";
@@ -54,7 +54,6 @@ namespace sdb.Areas.Ngo.Controllers
             sdbCampaigns.UpdatedBy = "Test user";
             _db.SdbCompaigns.Add(sdbCampaigns);
             _db.SaveChanges();
-            return PartialView("_Campaign",sdbCampaigns);
         }
     }
 }

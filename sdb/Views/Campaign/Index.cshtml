@@ -25,45 +25,76 @@
 
 
         </form>
-        <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Image
-                    </th>
-                    <th>
-                        Compaign Purpose
-                    </th>
-                    <th>
-                        User_Id
-                    </th>
-                    <th>
-                        Description
-                    </th>
-                    <th>
-                        Total Amount Needed
-                    </th>
-                    <th>
-                        Collected Amount
-                    </th>
-                    <th>
-                        Status
-                    </th>
+        <div id="campaignTableDIV">
+            <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Compaign Purpose
+                        </th>
+                        <th>
+                            User_Id
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Total Amount Needed
+                        </th>
+                        <th>
+                            Collected Amount
+                        </th>
+                        <th>
+                            Status
+                        </th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr id="TR_@item.Id">
-                        <partial name="_Campaign" model="@item" />
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Image)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CompaignPurpose)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CollectedAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            @*
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </div>
@@ -76,7 +107,18 @@
     <script>
         $(document).ready(function () {
 
-            $("#Campaigntbl").DataTable();
+            $("#Campaigntbl").DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                responsive: {
+                    details: false
+                }
+            });
 
         });
 
@@ -90,7 +132,33 @@
                 success: function (response) {
                     console.log("Success Response: ");
                     console.log(response);
-                    $("#CampaignsContainer").html(response);
+                    $("#campaignTableDIV").html(response);
+                    
+
+                },
+                error: function (response) {
+                    console.log(response);
+                    alert(response);
+                }
+            });
+
+        }
+
+        function PostAddEditViewForm() {
+            let Name = $("#Name").val();
+            let ImageData = $("#ImageData").val();
+            let Description = $("#Description").val();
+            let TotalAmountNeeded = $("#TotalAmountNeeded").val();
+            $.ajax({
+                url: "/Campaign/_Campaign",
+                type: "POST",
+
+                data: { Name: Name, Description: Description, TotalAmountNeeded: TotalAmountNeeded },
+                success: function (response) {
+                    console.log("Success Response: ");
+                    console.log(response);
+                    $("#campaignTableDIV").html(response);
+                    closeAddEditViewForm();
 
                 },
                 error: function (response) {
@@ -115,9 +183,12 @@
         function closeAddEditViewForm(){
             $("#divAddEditView").addClass("invisible");
             $("#divAddEditView").removeClass("visible");
+            $("#addCampaignFormDIV").remove();
+
 
             $("#CampaignsContainer").addClass("visible");
             $("#CampaignsContainer").removeClass("invisible");
+            loadCampaigns();
 
         }
 
