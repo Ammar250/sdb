@@ -9,6 +9,7 @@ namespace sdb.Models
         {
             SdbPayments = new HashSet<SdbPayments>();
             SdbTransaction = new HashSet<SdbTransaction>();
+            SdbCompaigns = new HashSet<SdbCompaigns>();
         }
 
         public int Id { get; set; }
@@ -26,5 +27,6 @@ namespace sdb.Models
 
         public virtual ICollection<SdbPayments> SdbPayments { get; set; }
         public virtual ICollection<SdbTransaction> SdbTransaction { get; set; }
+        public virtual ICollection<SdbCompaigns> SdbCompaigns { get; set; }
     }
 }

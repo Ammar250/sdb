@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sdb.Data;
 
 namespace sdb.Migrations
 {
     [DbContext(typeof(SdbDBContext))]
-    partial class sdbdb25janContextModelSnapshot : ModelSnapshot
+    [Migration("20220501114741_update user and compaign relationship")]
+    partial class updateuserandcompaignrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +121,10 @@ namespace sdb.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<int>("sdbSystemUsersId")
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("sdbSystemUsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -358,9 +363,7 @@ namespace sdb.Migrations
                 {
                     b.HasOne("sdb.Models.SdbSystemUsers", "sdbSystemUsers")
                         .WithMany("SdbCompaigns")
-                        .HasForeignKey("sdbSystemUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sdbSystemUsersId");
                 });
 
             modelBuilder.Entity("sdb.Models.SdbPayments", b =>

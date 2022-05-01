@@ -1,0 +1,117 @@
+﻿@model sdb.Models.SdbCompaigns
+<style>
+.custom-file-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.custom-file {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  margin-bottom: 0;
+}
+
+.custom-file-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  overflow: hidden;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: "Browse";
+}
+.custom-file-label::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: block;
+  height: calc(1.5em + .75rem);
+  padding: .375rem .75rem;
+  line-height: 1.5;
+  color: #495057;
+  content: "Browse";
+  background-color: #e9ecef;
+  border-left: inherit;
+  border-radius: 0 .25rem .25rem 0;
+}
+</style>
+    <div id="addCampaignFormDIV">
+        <h2>Add New Campaign</h2>
+        <div class="col-md-4">
+            <form action="#">
+                <input type="hidden" asp-for="Image" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="CampaignImage" class="col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div class="custom-file">
+                            @*Photo property type is IFormFile, so ASP.NET Core
+                            automatically creates a FileUpload control  *@
+                            <input asp-for="CampaignImage" class="custom-file-input form-control">
+                            <label class="custom-file-label">Click here to change photo</label>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="CompaignPurpose" class="control-label"></label>
+                        <input asp-for="CompaignPurpose" class="form-control" />
+                        <span asp-validation-for="CompaignPurpose" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="UserId" class="control-label"></label>
+                        <input asp-for="UserId" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalAmountNeeded" class="control-label"></label>
+                    <input asp-for="TotalAmountNeeded" class="form-control" />
+                    <span asp-validation-for="TotalAmountNeeded" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <input onclick="AddCampaignPostAjaxCall(); return false;" value="Create" class="col-sm-4 btn btn-success bg-theme-colored" />
+                    <input onclick="closeAddCampaignViewForm()" data-icon="back" value="Back" class="col-sm-4 btn btn-success bg-theme-colored" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+

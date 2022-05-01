@@ -4,19 +4,16 @@
     <thead>
         <tr>
             <th>
-                Title
-            </th>
-            <th>
                 Image
             </th>
             <th>
-                Compaign Purpose
-            </th>
-            <th>
-                User_Id
+                Title
             </th>
             <th>
                 Description
+            </th>
+            <th>
+                User
             </th>
             <th>
                 Total Amount Needed
@@ -27,44 +24,45 @@
             <th>
                 Status
             </th>
-
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompaignPurpose)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CollectedAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                @*
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>*@
-            </tr>
+            // If a campaign does not have a photo display noImageCampaign.jpg
+            var photoPath = "~/images/gallery/" + (item.Image ?? "noImageCampaign.jpg");
+        <tr>
+            <td class="form-group row col-sm-3 offset-3">
+                @*Display the existing campaign photo*@
+                <div>
+                    <img class="campaignImageThumbnail" src="@photoPath" asp-append-version="true" />
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sdbSystemUsers.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CollectedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @*
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
+        </tr>
         }
     </tbody>
 </table>

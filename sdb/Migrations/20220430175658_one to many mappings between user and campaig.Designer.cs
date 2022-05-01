@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sdb.Data;
 
 namespace sdb.Migrations
 {
     [DbContext(typeof(SdbDBContext))]
-    partial class sdbdb25janContextModelSnapshot : ModelSnapshot
+    [Migration("20220430175658_one to many mappings between user and campaig")]
+    partial class onetomanymappingsbetweenuserandcampaig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

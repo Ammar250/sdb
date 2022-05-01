@@ -30,6 +30,10 @@ namespace sdb
             services.AddControllersWithViews();
             services.AddDbContext<SdbDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConn")));
             services.AddScoped<ISDBRepository, SDBRepository>();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(300);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +53,7 @@ namespace sdb
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 

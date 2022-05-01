@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sdb.Data;
 
 namespace sdb.Migrations
 {
     [DbContext(typeof(SdbDBContext))]
-    partial class sdbdb25janContextModelSnapshot : ModelSnapshot
+    [Migration("20220501120056_added fk between campaign and user")]
+    partial class addedfkbetweencampaignanduser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

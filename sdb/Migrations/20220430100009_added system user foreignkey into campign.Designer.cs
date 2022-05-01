@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sdb.Data;
 
 namespace sdb.Migrations
 {
     [DbContext(typeof(SdbDBContext))]
-    partial class sdbdb25janContextModelSnapshot : ModelSnapshot
+    [Migration("20220430100009_added system user foreignkey into campign")]
+    partial class addedsystemuserforeignkeyintocampign
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +121,11 @@ namespace sdb.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<int>("sdbSystemUsersId")
+                    b.Property<int?>("UserId")
+                        .HasColumnName("userId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("sdbSystemUsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -357,10 +363,8 @@ namespace sdb.Migrations
             modelBuilder.Entity("sdb.Models.SdbCompaigns", b =>
                 {
                     b.HasOne("sdb.Models.SdbSystemUsers", "sdbSystemUsers")
-                        .WithMany("SdbCompaigns")
-                        .HasForeignKey("sdbSystemUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("sdbSystemUsersId");
                 });
 
             modelBuilder.Entity("sdb.Models.SdbPayments", b =>

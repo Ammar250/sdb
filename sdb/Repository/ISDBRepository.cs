@@ -11,5 +11,9 @@ namespace sdb.Repository
         SdbSystemUsers GetSdbSystemUser(string userEmail, string pasword);
         SdbSystemUsers Add(SdbSystemUsers sdbSystemUsers);
         SdbSystemUsers GetSdbSystemUser(SdbSystemUsers sdbSystemUsers);
+        List<SdbCompaigns> GetAllCampaigns();
+        List<SdbCompaigns> GetAllCampaignsByNGOId(int ngoID);
+        SdbCompaigns AddNewCampaign(SdbCompaigns sdbCompaigns);
+
     }
 }

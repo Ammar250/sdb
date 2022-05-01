@@ -111,8 +111,6 @@ namespace sdb.Data
                     .HasColumnName("updatedBy")
                     .HasMaxLength(150)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
             });
 
             modelBuilder.Entity<SdbPayments>(entity =>
