@@ -14,6 +14,9 @@ namespace sdb.Repository
         List<SdbCompaigns> GetAllCampaigns();
         List<SdbCompaigns> GetAllCampaignsByNGOId(int ngoID);
         SdbCompaigns AddNewCampaign(SdbCompaigns sdbCompaigns);
+        SdbCompaigns UpdateCampaign(SdbCompaigns sdbCompaigns);
+        SdbCompaigns DeleteCampaign(int campaignID);
+        SdbCompaigns GetCampaignByID(int campaignID);
 
     }
 }

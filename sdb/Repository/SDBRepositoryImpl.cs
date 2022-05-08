@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using sdb.Data;
 using sdb.Models;
 using System;
@@ -83,6 +84,7 @@ namespace sdb.Repository
                                             on campaign.sdbSystemUsersId equals user.Id
                                             select new SdbCompaigns
                                             {
+                                                Id = campaign.Id,
                                                 Name = campaign.Name,
                                                 Image = campaign.Image,
                                                 Description = campaign.Description,
@@ -116,6 +118,7 @@ namespace sdb.Repository
                                         where campaign.sdbSystemUsersId == systemUsers.Id
                                         select new SdbCompaigns
                                         {
+                                            Id = campaign.Id,
                                             Name = campaign.Name,
                                             Image = campaign.Image,
                                             Description = campaign.Description,
@@ -149,6 +152,29 @@ namespace sdb.Repository
                 sdbCompaigns = null;
             }
             return sdbCompaigns;
+        }
+        public  SdbCompaigns DeleteCampaign(int campaignID)
+        {
+            SdbCompaigns sdbCampaign = sdbDBContext.SdbCompaigns.Find(campaignID);
+            sdbDBContext.SdbCompaigns.Remove(sdbCampaign);
+            sdbDBContext.SaveChanges();
+            return sdbCampaign;
+
+
+        }
+
+        public SdbCompaigns UpdateCampaign(SdbCompaigns sdbCampaign)
+        {
+            
+            sdbDBContext.Entry(sdbCampaign).State = EntityState.Modified;
+            sdbDBContext.SaveChanges();
+            return sdbCampaign;
+        }
+
+        public  SdbCompaigns GetCampaignByID(int campaignID)
+        {
+            var campaignObj = sdbDBContext.SdbCompaigns.Where(camp => camp.Id == campaignID).FirstOrDefault();
+            return campaignObj;
         }
     }
 }
