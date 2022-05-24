@@ -1,0 +1,144 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<sdb.Data.StripeSettings> Stripe
+<div id="campaignDetailsViewDIV">
+    <h2>Campaign Details</h2>
+    <div class="col-md-4">
+        <input type="hidden" asp-for="Id" id="Id" value="@ViewBag.sdbCamp.Id" />
+        <input type="hidden" asp-for="Image" />
+        <div class="form-group">
+            <label class="control-label">Name</label>
+            <input value="@ViewBag.sdbCamp.Name" class="form-control" disabled="disabled" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Description</label>
+            <input value="@ViewBag.sdbCamp.Description" class="form-control" disabled="disabled" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">NGO</label>
+            <input value="@ViewBag.sdbCamp.sdbSystemUsers.Name" class="form-control" disabled="disabled" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Required Amount</label>
+            <input value="@ViewBag.RequiredAmount" class="form-control" disabled="disabled" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @{
+            var photoPath = "/images/gallery/" + (ViewBag.sdbCamp.Image ?? "noImageCampaign.jpg");
+            <img class="campaignImageThumbnail" src="@photoPath" asp-append-version="true" />
+        }
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="form-group">
+        <span id="card-errors"></span>
+        <form asp-action="Charge" method="post" id="payment-form">
+            <label for="card-number">Credit Card Number</label>
+            <div class="form-group">
+                <span id="card-number" class="form-control">
+                    <!-- Stripe Card Element-->
+                </span>
+            </div>
+            <label for="card-cvc">CVC Number</label>
+            <div class="form-group">
+                <span id="card-cvc" class="form-control">
+                    <!-- Stripe CVC Element-->
+                </span>
+            </div>
+            <label for="card-exp">Expiration</label>
+            <div class="form-group">
+                <span id="card-exp" class="form-control">
+                    <!-- Stripe Card Expiry Element-->
+                </span>
+            </div>
+            <input class="StripeToken" id="Token" type="hidden" />
+            <label for="Total">Amount</label>
+            <div class="form-group">
+                <input id="Total" type="number" min="1" max="@ViewBag.RequiredAmount" required />
+            </div>
+            <label for="Email">Email</label>
+            <div class="form-group">
+                <input id="Email" type="email" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Pay" class="col-sm-4 btn btn-success bg-theme-colored" />
+                <input type="button" onclick="closeCampaignDetailViewFormOnBackBtn()" data-icon="back" value="Back" class="col-sm-4 btn btn-success bg-theme-colored" />
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Create a Stripe Client
+        var stripe = Stripe("pk_test_51KzjhKKuRcODbYpMe043ZA5dl0EJFMgCFu53VfzOWS55CFaCw6lsLu4zf5QfR5dxJc5IzfECuE579A7pa1mkafVJ00TrGoZdps");
+
+        // Create an instance of elements
+        var elements = stripe.elements();
+
+        // custom styling options for element
+        var style = {
+            base: {
+                "lineHeight": "1.35",
+                "fontSize": "1.11rem"
+            }
+        };
+
+        // Card number
+        var card = elements.create('cardNumber', {
+            'placeholder': '',
+            'style': style
+        });
+
+        card.mount("#card-number");
+
+        // CVC
+        var cvc = elements.create('cardCvc', {
+            'placeholder': '',
+            'style': style
+        });
+
+        cvc.mount("#card-cvc");
+
+        // Card expiry
+        var exp = elements.create('cardExpiry', {
+            'placeholder': '',
+            'style': style
+        });
+
+        exp.mount("#card-exp");
+
+        // Handle Form submission
+        var form = $("#payment-form")[0];
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    console.log("Error: " + result.error.message);
+                    $("#card-errors").html(result.error.message);
+                } else {
+                    // Send Token to server
+                    stripeTokenHandler(result.token);
+                    //console.log(result.token);
+                }
+            });
+        });
+        // Submit the form with Token ID
+        function stripeTokenHandler(token) {
+            // Insert the token Id into form so that it can send to the server
+            $(".StripeToken").val(token.id);
+            AddCampaignPaymentPostAjaxCall();
+        }
+
+    });
+</script>
+

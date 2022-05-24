@@ -19,13 +19,16 @@ namespace sdb.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage ="Name is required")]
         public string Name { get; set; }
         
         public string Image { get; set; }
         public string CompaignPurpose { get; set; }
         public string Description { get; set; }
-        public decimal TotalAmountNeeded { get; set; }
-        public decimal? CollectedAmount { get; set; }
+        [Required(ErrorMessage = "Total Amount is required")]
+        [RegularExpression(@"^([1-9][0-9]{1,7})$", ErrorMessage = "Total Amount must be between 1 - 99999999.")]
+        public long TotalAmountNeeded { get; set; }
+        public long CollectedAmount { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
@@ -36,7 +39,7 @@ namespace sdb.Models
         public virtual ICollection<SdbPayments> SdbPayments { get; set; }
         public virtual ICollection<SdbTransaction> SdbTransaction { get; set; }
 
-        public int sdbSystemUsersId { get; set; }
+        public int? sdbSystemUsersId { get; set; }
         [ForeignKey("sdbSystemUsersId")]
         public virtual SdbSystemUsers sdbSystemUsers { get; set; }
 

@@ -54,5 +54,9 @@
     border-left: inherit;
     border-radius: 0 .25rem .25rem 0;
 }
+.campaignImageThumbnail {
+    height: 200px;
+    width: auto;
+}
 
 

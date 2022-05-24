@@ -57,7 +57,7 @@ namespace sdb.Migrations
                         .HasColumnName("active")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("CollectedAmount")
+                    b.Property<decimal>("CollectedAmount")
                         .HasColumnName("collectedAmount")
                         .HasColumnType("numeric(18, 0)");
 
@@ -119,7 +119,7 @@ namespace sdb.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<int>("sdbSystemUsersId")
+                    b.Property<int?>("sdbSystemUsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -296,13 +296,6 @@ namespace sdb.Migrations
                         .HasColumnName("active")
                         .HasColumnType("int");
 
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasColumnName("cardNumber")
-                        .HasColumnType("varchar(15)")
-                        .HasMaxLength(15)
-                        .IsUnicode(false);
-
                     b.Property<int?>("CompaignId")
                         .HasColumnName("compaignId")
                         .HasColumnType("int");
@@ -318,10 +311,6 @@ namespace sdb.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<int>("Csv")
-                        .HasColumnName("csv")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("DonationAmount")
                         .HasColumnName("donationAmount")
                         .HasColumnType("numeric(18, 0)");
@@ -329,10 +318,6 @@ namespace sdb.Migrations
                     b.Property<int?>("DonorId")
                         .HasColumnName("donorId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnName("expiryDate")
-                        .HasColumnType("date");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnName("updatedAt")
@@ -358,9 +343,7 @@ namespace sdb.Migrations
                 {
                     b.HasOne("sdb.Models.SdbSystemUsers", "sdbSystemUsers")
                         .WithMany("SdbCompaigns")
-                        .HasForeignKey("sdbSystemUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sdbSystemUsersId");
                 });
 
             modelBuilder.Entity("sdb.Models.SdbPayments", b =>

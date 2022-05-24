@@ -27,10 +27,15 @@ namespace sdb.Areas.Ngo.Controllers
         }
         public IActionResult Index()
         {
+            var loggedInUser = HttpContext.Session.GetString("loggedInUser");
+            if (loggedInUser == null)
+            {
+                return RedirectToAction("Index", "Home"); // User does not logged in Please login
+            }
             SdbSystemUsers sdbSystemUsers = new SdbSystemUsers();
             List<SdbCompaigns> campaignInfoWithUser = new List<SdbCompaigns>();
 
-            var loggedInUser = HttpContext.Session.GetString("loggedInUser");
+            loggedInUser = HttpContext.Session.GetString("loggedInUser");
             if (loggedInUser != null)
             {
                 sdbSystemUsers = JsonSerializer.Deserialize<SdbSystemUsers>(loggedInUser);
@@ -74,42 +79,47 @@ namespace sdb.Areas.Ngo.Controllers
             return PartialView(new SdbCompaigns());
         }
 
-
-        public void AddCampaign(SdbCompaigns sdbCampaigns)
+        [HttpPost]
+        public ActionResult Create(SdbCompaigns sdbCampaigns)
         {
-            if (sdbCampaigns.CampaignImage != null)
+            if (ModelState.IsValid)
             {
-                // If a new photo is uploaded, the existing photo must be
-                // deleted. So check if there is an existing photo and delete
-                if (sdbCampaigns.Image != null)
+                if (sdbCampaigns.CampaignImage != null)
                 {
-                    string filePath = Path.Combine(webHostEnvironment.WebRootPath,
-                            "images", sdbCampaigns.Image);
-                    System.IO.File.Delete(filePath);
+                    // If a new photo is uploaded, the existing photo must be
+                    // deleted. So check if there is an existing photo and delete
+                    if (sdbCampaigns.Image != null)
+                    {
+                        string filePath = Path.Combine(webHostEnvironment.WebRootPath,
+                                "images", sdbCampaigns.Image);
+                        System.IO.File.Delete(filePath);
+                    }
+                    // Save the new photo in wwwroot/images folder and update
+                    // Image property of the campaign object
+                    sdbCampaigns.Image = ProcessUploadedFile(sdbCampaigns.CampaignImage);
                 }
-                // Save the new photo in wwwroot/images folder and update
-                // Image property of the campaign object
-                sdbCampaigns.Image = ProcessUploadedFile(sdbCampaigns.CampaignImage);
+
+                SdbSystemUsers sdbSystemUsers = new SdbSystemUsers();
+                var userInfo = HttpContext.Session.GetString("loggedInUser");
+
+                if (userInfo != null)
+                {
+                    sdbSystemUsers = JsonSerializer.Deserialize<SdbSystemUsers>(userInfo);
+
+                    sdbCampaigns.CompaignPurpose = SDB_Constants.CAMPAIGN_PURPOSE;
+                    sdbCampaigns.Status = SDB_Constants.CAMPAIGN_START_STATUS;
+                    sdbCampaigns.sdbSystemUsersId = sdbSystemUsers.Id;
+                    sdbCampaigns.sdbSystemUsers = null;
+                    sdbCampaigns.Active = 1;
+                    sdbCampaigns.CreatedAt = DateTime.Now;
+                    sdbCampaigns.CreatedBy = sdbSystemUsers.Name;
+                    sdbCampaigns.UpdatedAt = DateTime.Now;
+                    sdbCampaigns.UpdatedBy = sdbSystemUsers.Name;
+                    _sdbRepository.AddNewCampaign(sdbCampaigns);
+                }
+                return Json(new { formStatus = "Success" });
             }
-
-            SdbSystemUsers sdbSystemUsers = new SdbSystemUsers();
-            var userInfo = HttpContext.Session.GetString("loggedInUser");
-
-            if (userInfo != null)
-            {
-                sdbSystemUsers = JsonSerializer.Deserialize<SdbSystemUsers>(userInfo);
-
-                sdbCampaigns.CompaignPurpose = SDB_Constants.CAMPAIGN_PURPOSE;
-                sdbCampaigns.Status = SDB_Constants.CAMPAIGN_START_STATUS;
-                sdbCampaigns.sdbSystemUsersId = sdbSystemUsers.Id;
-                sdbCampaigns.sdbSystemUsers = null;
-                sdbCampaigns.Active = 1;
-                sdbCampaigns.CreatedAt = DateTime.Now;
-                sdbCampaigns.CreatedBy = sdbSystemUsers.Name;
-                sdbCampaigns.UpdatedAt = DateTime.Now;
-                sdbCampaigns.UpdatedBy = sdbSystemUsers.Name;
-                _sdbRepository.AddNewCampaign(sdbCampaigns);
-            }
+            return PartialView(sdbCampaigns);
         }
         [HttpGet]
         public IActionResult EditCampaign(string Id)
@@ -170,6 +180,17 @@ namespace sdb.Areas.Ngo.Controllers
             _sdbRepository.DeleteCampaign(id);
            
             return RedirectToAction("Index", "Campaign");
+        }
+
+        [HttpGet]
+        public IActionResult CloseCampaign(string Id)
+        {
+            int campID = Convert.ToInt32(Id);
+            SdbCompaigns sdbCamp = _sdbRepository.GetCampaignByID(campID);
+            sdbCamp.Status = SDB_Constants.CAMPAIGN_CLOSE_STATUS;
+            sdbCamp = _sdbRepository.UpdateCampaign(sdbCamp);
+            return RedirectToAction("Index", "Campaign");
+
         }
 
         // This method is responsible to upload image in wwwroot/images/gallery directory

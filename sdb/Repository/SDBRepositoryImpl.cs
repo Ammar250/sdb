@@ -159,13 +159,10 @@ namespace sdb.Repository
             sdbDBContext.SdbCompaigns.Remove(sdbCampaign);
             sdbDBContext.SaveChanges();
             return sdbCampaign;
-
-
         }
 
         public SdbCompaigns UpdateCampaign(SdbCompaigns sdbCampaign)
         {
-            
             sdbDBContext.Entry(sdbCampaign).State = EntityState.Modified;
             sdbDBContext.SaveChanges();
             return sdbCampaign;
@@ -174,7 +171,70 @@ namespace sdb.Repository
         public  SdbCompaigns GetCampaignByID(int campaignID)
         {
             var campaignObj = sdbDBContext.SdbCompaigns.Where(camp => camp.Id == campaignID).FirstOrDefault();
+            var systemUsers = sdbDBContext.SdbSystemUsers.Where(user => user.Id == campaignObj.sdbSystemUsersId).SingleOrDefault();
+            campaignObj.sdbSystemUsers = systemUsers;
             return campaignObj;
+        }
+
+        public SdbTransaction AddNewTransaction(SdbTransaction sdbTransaction)
+        {
+            try
+            {
+                sdbDBContext.SdbTransaction.Add(sdbTransaction);
+                sdbDBContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+                sdbTransaction = null;
+            }
+            return sdbTransaction;
+        }
+
+        public List<SdbTransaction> GetAllTransactionsByUserId(int userId)
+        {
+            try
+            {
+                var allCampaignsData = sdbDBContext.SdbCompaigns.ToList<SdbCompaigns>();
+                var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
+                List<SdbCompaigns> campaignInfoWithUser = new List<SdbCompaigns>();
+
+                campaignInfoWithUser = (from campaign in allCampaignsData
+                                        join user in systemUsersData on campaign.sdbSystemUsersId equals user.Id
+                                        select new SdbCompaigns
+                                        {
+                                            Id = campaign.Id,
+                                            Name = campaign.Name,
+                                            Image = campaign.Image,
+                                            Description = campaign.Description,
+                                            TotalAmountNeeded = campaign.TotalAmountNeeded,
+                                            CollectedAmount = campaign.CollectedAmount,
+                                            Status = campaign.Status,
+                                            Active = campaign.Active,
+                                            CompaignPurpose = campaign.CompaignPurpose,
+                                            sdbSystemUsers = user
+                                        }).ToList();
+                var transactionData = sdbDBContext.SdbTransaction.ToList<SdbTransaction>();
+                List<SdbTransaction> transactionInfoWithCampaign = new List<SdbTransaction>();
+
+                transactionInfoWithCampaign = (from campaign in allCampaignsData
+                                               join trans in transactionData on campaign.Id equals trans.CompaignId
+                                               where trans.DonorId == userId
+                                               group trans by trans.CompaignId into g
+                                               select new SdbTransaction
+                                               {
+                                                   Id = g.FirstOrDefault().Id,
+                                                   DonationAmount = g.Sum(x=>x.DonationAmount),
+                                                   Compaign = g.FirstOrDefault().Compaign
+                                               }).ToList();
+
+                return transactionInfoWithCampaign;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+            }
+            return null;
         }
     }
 }

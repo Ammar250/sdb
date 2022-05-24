@@ -1,10 +1,10 @@
-﻿@{
+﻿@model IEnumerable<sdb.Models.SdbCompaigns>
+@{
     ViewData["Title"] = "Smart Donation Box NGO";
     Layout = "~/Areas/Ngo/Views/Shared/_Layout.cshtml";
 }
 
 <h3 style="text-align:center">Welcome to Smart Donation Box</h3>
-<input type="hidden" id="loggedinuserID" value="1" />
 
 <!-- Start main-content -->
 <div class="main-content">
@@ -24,126 +24,36 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="news-carousel owl-nav-top mb-sm-80" data-dots="true">
-                        <div class="item">
-                            <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" alt="" src="~/images/project/1.jpg">
-                                </div>
-                                <div class="progress-item mt-0">
-                                    <div class="progress mb-0">
-                                        <div class="progress-bar" data-percent="84"></div>
+                        @foreach (var item in Model)
+                        {
+                            <div class="item">
+                                <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
+                                    <div class="thumb">
+                                        @{
+                                            var photoPath = "/images/gallery/" + (item.Image ?? "noImageCampaign.jpg");
+                                            <img class="img-fullwidth" alt="" src="@photoPath">
+                                        }
                                     </div>
-                                </div>
-                                <div class="causes-details clearfix border-bottom p-15 pt-10">
-                                    <h5><a href="#">Sponsor a child today</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consect adipisicing elit. Praesent quos sit.</p>
-                                    <ul class="list-inline clearfix mt-20">
-                                        <li class="pull-left pr-0">Raised: $1890</li>
-                                        <li class="text-theme-colored pull-right pr-0">Goal: $2500</li>
-                                    </ul>
-                                    <div class="mt-10">
-                                        <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
-                                        <div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>
+                                    <div class="progress-item mt-0">
+                                        <div class="progress mb-0">
+                                            <div class="progress-bar" data-percent="84"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" alt="" src="~/images/project/2.jpg">
-                                </div>
-                                <div class="progress-item mt-0">
-                                    <div class="progress mb-0">
-                                        <div class="progress-bar" data-percent="85"></div>
-                                    </div>
-                                </div>
-                                <div class="causes-details clearfix border-bottom p-15 pt-10">
-                                    <h5><a href="#">Sponsor a child today</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consect adipisicing elit. Praesent quos sit.</p>
-                                    <ul class="list-inline clearfix mt-20">
-                                        <li class="pull-left pr-0">Raised: $1890</li>
-                                        <li class="text-theme-colored pull-right pr-0">Goal: $2500</li>
-                                    </ul>
-                                    <div class="mt-10">
-                                        <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
-                                        <div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>
+                                    <div class="causes-details clearfix border-bottom p-15 pt-10">
+                                        <h5><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></h5>
+                                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                        <ul class="list-inline clearfix mt-20">
+                                            <li class="pull-left pr-0">Raised: @Html.DisplayFor(modelItem => item.CollectedAmount)</li>
+                                            <li class="text-theme-colored pull-right pr-0">Goal: @Html.DisplayFor(modelItem => item.TotalAmountNeeded)</li>
+                                        </ul>
+                                        <div class="mt-10">
+                                            <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
+                                            @*<div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>*@
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="item">
-                            <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" alt="" src="~/images/project/3.jpg">
-                                </div>
-                                <div class="progress-item mt-0">
-                                    <div class="progress mb-0">
-                                        <div class="progress-bar" data-percent="86"></div>
-                                    </div>
-                                </div>
-                                <div class="causes-details clearfix border-bottom p-15 pt-10">
-                                    <h5><a href="#">Sponsor a child today</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consect adipisicing elit. Praesent quos sit.</p>
-                                    <ul class="list-inline clearfix mt-20">
-                                        <li class="pull-left pr-0">Raised: $1890</li>
-                                        <li class="text-theme-colored pull-right pr-0">Goal: $2500</li>
-                                    </ul>
-                                    <div class="mt-10">
-                                        <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
-                                        <div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" alt="" src="~/images/project/4.jpg">
-                                </div>
-                                <div class="progress-item mt-0">
-                                    <div class="progress mb-0">
-                                        <div class="progress-bar" data-percent="87"></div>
-                                    </div>
-                                </div>
-                                <div class="causes-details clearfix border-bottom p-15 pt-10">
-                                    <h5><a href="#">Sponsor a child today</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consect adipisicing elit. Praesent quos sit.</p>
-                                    <ul class="list-inline clearfix mt-20">
-                                        <li class="pull-left pr-0">Raised: $1890</li>
-                                        <li class="text-theme-colored pull-right pr-0">Goal: $2500</li>
-                                    </ul>
-                                    <div class="mt-10">
-                                        <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
-                                        <div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="causes bg-lighter box-hover-effect effect1 maxwidth500 mb-sm-30">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" alt="" src="~/images/project/4.jpg">
-                                </div>
-                                <div class="progress-item mt-0">
-                                    <div class="progress mb-0">
-                                        <div class="progress-bar" data-percent="87"></div>
-                                    </div>
-                                </div>
-                                <div class="causes-details clearfix border-bottom p-15 pt-10">
-                                    <h5><a href="#">Sponsor a child today</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consect adipisicing elit. Praesent quos sit.</p>
-                                    <ul class="list-inline clearfix mt-20">
-                                        <li class="pull-left pr-0">Raised: $1890</li>
-                                        <li class="text-theme-colored pull-right pr-0">Goal: $2500</li>
-                                    </ul>
-                                    <div class="mt-10">
-                                        <a class="btn btn-dark btn-theme-colored btn-flat btn-sm pull-left mt-10" href="#">Donate</a>
-                                        <div class="pull-right mt-15"><i class="fa fa-heart-o text-theme-colored"></i> 89 Donors</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -21,9 +21,6 @@ namespace sdb.Controllers
 
         public IActionResult Index()
         {
-            SdbSystemUsers sdbSystemUsers = new SdbSystemUsers();
-            sdbSystemUsers = _sdbRepository.GetSdbSystemUser("mirocah915@diolang.com", "Ali12345");
-            HttpContext.Session.SetString("loggedInUser",JsonSerializer.Serialize(sdbSystemUsers));
             return View();
         }
 

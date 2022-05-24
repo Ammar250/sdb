@@ -249,12 +249,6 @@ namespace sdb.Data
 
                 entity.Property(e => e.Active).HasColumnName("active");
 
-                entity.Property(e => e.CardNumber)
-                    .IsRequired()
-                    .HasColumnName("cardNumber")
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CompaignId).HasColumnName("compaignId");
 
                 entity.Property(e => e.CreatedAt)
@@ -267,17 +261,11 @@ namespace sdb.Data
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Csv).HasColumnName("csv");
-
                 entity.Property(e => e.DonationAmount)
                     .HasColumnName("donationAmount")
                     .HasColumnType("numeric(18, 0)");
 
                 entity.Property(e => e.DonorId).HasColumnName("donorId");
-
-                entity.Property(e => e.ExpiryDate)
-                    .HasColumnName("expiryDate")
-                    .HasColumnType("date");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updatedAt")

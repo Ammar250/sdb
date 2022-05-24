@@ -58,7 +58,7 @@ function setBaseUrl(baseUrl) {
 
 function loginAjax() {
 
-    console.log("calling loginAjax");
+    //console.log("calling loginAjax");
     if (!isLoginUserEmailValid) {
         loginUserEmail = $("#email").val();
         regualrExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
@@ -72,7 +72,7 @@ function loginAjax() {
     }
 
     if (isLoginUserEmailValid && isLoginUserPwdValid) {
-        console.log("calling controller class action method " + loginUserEmail + " " + loginUserPwd);
+       // console.log("calling controller class action method " + loginUserEmail + " " + loginUserPwd);
         $.ajax({
             type: "Post",
             url: "/Login/Get",
@@ -84,7 +84,9 @@ function loginAjax() {
                 }
                 else if (data == "DONOR") {
                     $(location).prop('href', "/Donor/Home/Index");
-                } else {
+                } else if (data == "ADMIN") {
+                    $(location).prop('href', "/Admin/Home/Index");
+                }else {
                     $("#lblloginError").css("display", "block");
                     $("#lblloginError").html(data).show().fadeOut(20000);
                 }

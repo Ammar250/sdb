@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using sdb.Models;
 using sdb.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace sdb.Controllers
@@ -18,8 +20,7 @@ namespace sdb.Controllers
         }
         public IActionResult login()
         {
-            return View();
-            //How to Encode or Encrept Password in Asp.net core 
+            return View(); 
         }
         [HttpPost]
         public String Get(SdbSystemUsers sdbSystemUsers)
@@ -30,6 +31,8 @@ namespace sdb.Controllers
                 sdbSystemUsers = _sdbRepository.GetSdbSystemUser(sdbSystemUsers.Email, sdbSystemUsers.Password);
                 if (sdbSystemUsers != null)
                 {
+                    HttpContext.Session.SetString("loggedInUser", JsonSerializer.Serialize(sdbSystemUsers));
+                    HttpContext.Session.SetString("loggedInUserName", sdbSystemUsers.Name);
                     return sdbSystemUsers.UserRole;
                 }
                 return "Error in User Login";
@@ -39,6 +42,12 @@ namespace sdb.Controllers
                 return "Error in User Login";
             }
            
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index","Home");
         }
     }
 }

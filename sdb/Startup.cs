@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using sdb.Data;
 using sdb.Repository;
 using Newtonsoft.Json;
+using Stripe;
+using Microsoft.AspNetCore.Http;
 
 namespace sdb
 {
@@ -28,17 +30,30 @@ namespace sdb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddDbContext<SdbDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConn")));
             services.AddScoped<ISDBRepository, SDBRepository>();
+            
+            // session configurations
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(300);
+            });
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                //options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,6 +70,7 @@ namespace sdb
             app.UseRouting();
             app.UseSession();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

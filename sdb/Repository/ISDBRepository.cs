@@ -8,9 +8,14 @@ namespace sdb.Repository
 {
     public interface ISDBRepository
     {
+        // Login and user authentication query method
         SdbSystemUsers GetSdbSystemUser(string userEmail, string pasword);
+        
+        // User Registration query methods
         SdbSystemUsers Add(SdbSystemUsers sdbSystemUsers);
         SdbSystemUsers GetSdbSystemUser(SdbSystemUsers sdbSystemUsers);
+        
+        // Campaign create,update and delete query methods
         List<SdbCompaigns> GetAllCampaigns();
         List<SdbCompaigns> GetAllCampaignsByNGOId(int ngoID);
         SdbCompaigns AddNewCampaign(SdbCompaigns sdbCompaigns);
@@ -18,5 +23,8 @@ namespace sdb.Repository
         SdbCompaigns DeleteCampaign(int campaignID);
         SdbCompaigns GetCampaignByID(int campaignID);
 
+        // Transaction for record in SDB query methods
+        SdbTransaction AddNewTransaction(SdbTransaction sdbTransaction);
+        List<SdbTransaction> GetAllTransactionsByUserId(int userId);
     }
 }

@@ -3,29 +3,22 @@
     ViewData["Title"] = "Campaigns";
     Layout = "~/Areas/Ngo/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .campaignImageThumbnail {
-        height: 200px;
-        width: auto;
-    }
-</style>
 <div class="col-md-12 form-group">
-    
     <div class="container invisible" id="divAddEditView">
 
     </div>
     @*<a class="btn btn-success bg-theme-colored" style="margin-bottom:10px" asp-action="AddOrEdit"><i class="fa fa-plus"></i> Add New</a>*@
-    
+
 
 </div>
 <div id="CampaignsContainer" class="container visible">
     <h2>Smart Donation Box Campagin List</h2>
     <div class="col-md-12 form-group">
-        <form asp-action="Create" 
-          data-ajax="true" 
-          data-ajax-update="#divAddEditView" 
-          data-ajax-success="showAddCampaignViewForm()">
-          <button type="submit" class="btn btn-success bg-theme-colored"><i class="fa fa-plus"></i>Add New</button>
+        <form asp-action="Create" method="get"
+              data-ajax="true"
+              data-ajax-update="#divAddEditView"
+              data-ajax-success="showAddCampaignViewForm()">
+            <button type="submit" class="btn btn-success bg-theme-colored"><i class="fa fa-plus"></i>Add New</button>
 
 
         </form>
@@ -65,37 +58,53 @@
                     {
                         // If a campaign does not have a photo display noImageCampaign.jpg
                         var photoPath = "~/images/gallery/" + (item.Image ?? "noImageCampaign.jpg");
-                    <tr>
-                        <td class="form-group row col-sm-3 offset-3">
-                            @*Display the existing campaign photo*@
-                            <div>
-                                <img class="campaignImageThumbnail" src="@photoPath" asp-append-version="true" />
-                            </div>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.sdbSystemUsers.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CollectedAmount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
+                        <tr>
+                            <td class="form-group row col-sm-3 offset-3">
+                                @*Display the existing campaign photo*@
+                                <div>
+                                    <img class="campaignImageThumbnail" src="@photoPath" asp-append-version="true" />
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sdbSystemUsers.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CollectedAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
 
-                        <td>
-                           <a asp-action="EditCampaign" asp-route-id="@item.Id">Edit</a> |
-                           <a asp-action="DeleteCampaign" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                            <td>
+                                <a asp-action="EditCampaign" asp-route-id="@item.Id">Edit</a> |
+                                @if (item.CollectedAmount == 0)
+                                {
+                                    <a asp-action="DeleteCampaign" asp-route-id="@item.Id"> Delete </a>
+
+                                }
+                                else
+                                {
+                                    if (item.Status.Equals("Running") || item.Status.Equals("Stop"))
+                                    {
+                                        <a style="pointer-events:none" asp-action="CloseCampaign" asp-route-id="@item.Id"> Close </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="CloseCampaign" asp-route-id="@item.Id"> Close </a>
+                                    }
+                                }
+
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -105,10 +114,6 @@
 </div>
 
 @section scripts{
-@{ 
-    await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
-}
-
     <script>
         $(document).ready(function () {
 
@@ -133,28 +138,24 @@
                 type: "GET",
                 success: function (response) {
                     console.log("Success Response: ");
-                    console.log(response);
+                    //console.log(response);
                     $("#campaignTableDIV").html(response);
-                    
-
                 },
-                error: function (response) {
-                    console.log(response);
-                    alert(response);
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
                 }
             });
 
         }
 
         function AddCampaignPostAjaxCall() {
-            let Name = $("#Name").val();
-            let Image = $("#Image").val();
-            let Description = $("#Description").val();
-            let TotalAmountNeeded = $("#TotalAmountNeeded").val();
+            //let Name = $("#Name").val();
+            //let Image = $("#Image").val();
+            //let Description = $("#Description").val();
+            //let TotalAmountNeeded = $("#TotalAmountNeeded").val();
             var model = new FormData($('form').get(0));
-
             $.ajax({
-                url: "/Campaign/AddCampaign",
+                url: "/Campaign/Create",
                 type: "POST",
                 contentType: false,
                 processData: false,
@@ -162,19 +163,21 @@
                 success: function (response) {
                     console.log("Success Response: ");
                     console.log(response);
-                    $("#campaignTableDIV").html(response);
-                    closeAddCampaignViewForm();
-
+                    console.log(response.formStatus);
+                    if (response.formStatus === "Success") {
+                        closeAddCampaignViewForm();
+                    } else {
+                        $("#addCampaignFormDIV").remove();
+                        $("#divAddEditView").html(response);
+                    }
                 },
-                error: function (response) {
-                    console.log(response);
-                    alert(response);
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
                 }
             });
-
         }
 
-        function showAddCampaignViewForm(){
+        function showAddCampaignViewForm() {
             $("#divAddEditView").addClass("visible");
             $("#divAddEditView").removeClass("invisible");
 
@@ -185,7 +188,7 @@
 
         }
 
-        function closeAddCampaignViewForm(){
+        function closeAddCampaignViewForm() {
             $("#divAddEditView").addClass("invisible");
             $("#divAddEditView").removeClass("visible");
             $("#addCampaignFormDIV").remove();
@@ -200,4 +203,7 @@
 
 
     </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
 }

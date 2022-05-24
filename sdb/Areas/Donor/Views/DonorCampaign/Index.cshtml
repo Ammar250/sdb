@@ -1,0 +1,230 @@
+﻿@model IEnumerable<sdb.Models.SdbCompaigns>
+@using Microsoft.Extensions.Options
+@inject IOptions<sdb.Data.StripeSettings> Stripe
+@{
+    ViewData["Title"] = "Campaigns";
+    Layout = "~/Areas/Donor/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-12 form-group">
+    <div class="container invisible" id="divCampaignDetailsView">
+    </div>
+</div>
+<div id="CampaignsContainer" class="container visible">
+    <h2>Smart Donation Box Campagin List</h2>
+    <div class="col-md-12 form-group">
+        <div id="campaignTableDIV">
+            <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Total Amount Needed
+                        </th>
+                        <th>
+                            Collected Amount
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        // If a campaign does not have a photo display noImageCampaign.jpg
+                        var photoPath = "/images/gallery/" + (item.Image ?? "noImageCampaign.jpg");
+                        <tr>
+                            <td class="form-group row col-sm-3 offset-3">
+                                @*Display the existing campaign photo*@
+                                <div>
+                                    <img class="campaignImageThumbnail" src="@photoPath" asp-append-version="true" />
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sdbSystemUsers.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmountNeeded)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CollectedAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+
+                            <td>
+                                @if ((item.TotalAmountNeeded - item.CollectedAmount) > 0)
+                                {
+                                    <input type="button" onclick="CampaignDonationAjaxCall('@item.Id'); return false;" value="Donate" class="btn btn-success bg-theme-colored" />
+                                }
+                                else
+                                {
+                                    <input type="button" disabled="disabled" value="Donate" class="btn btn-success bg-theme-colored" />
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+
+<script>
+        $(document).ready(function () {
+
+            $("#Campaigntbl").DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                responsive: {
+                    details: false
+                }
+            });
+
+        });
+
+        function loadCampaigns() {
+            $.ajax({
+                url: "/Donor/DonorCampaign/Index",
+                type: "GET",
+                success: function (response) {
+                    //console.log("Success Response: ");
+                    //console.log(response);
+                    $("#campaignTableDIV").html(response);
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
+        }
+
+        function CampaignDonationAjaxCall(campId) {
+            //console.log(campId);
+            $.ajax({
+                url: "/Donor/DonorCampaign/DonateToCampaign",
+                type: "POST",
+                data: { Id: campId },
+                success: function (response) {
+                    //console.log("Success Response: ");
+                    //console.log(response);
+                    $("#divCampaignDetailsView").html(response);
+                    showCampaignDetailsViewForm();
+
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
+        }
+
+        function AddCampaignPaymentPostAjaxCall() {
+            //let cardNumber = $("input[name='cardnumber']").val();
+            //let cardCVC = $("input[name='cvc']").val();
+            //let cardExpDate = $("input[name='exp-date']").val();
+            let Token = $("#Token").val();
+            let Total = $("#Total").val();
+            let Email = $("#Email").val();
+            let campaignId = $("#Id").val();
+            //console.log(Total);
+            $.ajax({
+                url: "/Donor/DonorCampaign/Charge",
+                type: "POST",
+                data: { Token: Token, Total: Total, Email: Email, campaignId: campaignId },
+                success: function (response) {
+                    //console.log("Success Response: ");
+                    console.log(response);
+                    if (response.redirecturl != "/Donor/DonorCampaign/Index") {
+                        if (response.redirecturl === "InValidAccess") {
+                            $("#card-errors").html("Unable to perform transaction because you don't have required access");
+                        } else if (response.redirecturl === "RequiredLogIn") {
+                            $("#card-errors").html("Your Session has been Expired.Please try login");
+                        } else {
+                            $("#card-errors").html(response.redirecturl);
+                        }
+                    } else {
+                        let tID = response.transactionId;
+                        alert("Your Donation has been saved successfully.\nYou can track it using your registered email address to SDB or use following TID for tracking on Track your donation page.\nTID: " + tID);
+                        closeCampaignDetailViewForm();
+                        $(location).prop('href', response.redirecturl); // Redirecting
+                    }
+
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
+        }
+
+        function showCampaignDetailsViewForm() {
+            $("#divCampaignDetailsView").addClass("visible");
+            $("#divCampaignDetailsView").removeClass("invisible");
+
+
+            $("#CampaignsContainer").addClass("invisible");
+            $("#CampaignsContainer").removeClass("visible");
+
+
+        }
+
+        function closeCampaignDetailViewForm() {
+            $("#divCampaignDetailsView").addClass("invisible");
+            $("#divCampaignDetailsView").removeClass("visible");
+            $("#campaignDetailsViewDIV").remove();
+
+
+            $("#CampaignsContainer").addClass("visible");
+            $("#CampaignsContainer").removeClass("invisible");
+            loadCampaigns();
+
+        }
+
+        function closeCampaignDetailViewFormOnBackBtn() {
+            $("#divCampaignDetailsView").addClass("invisible");
+            $("#divCampaignDetailsView").removeClass("visible");
+            $("#campaignDetailsViewDIV").remove();
+
+
+            $("#CampaignsContainer").addClass("visible");
+            $("#CampaignsContainer").removeClass("invisible");
+
+        }
+
+</script>
+}
