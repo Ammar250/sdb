@@ -3,6 +3,19 @@
     ViewData["Title"] = "Campaigns";
     Layout = "~/Areas/Donor/Views/Shared/_Layout.cshtml";
 }
+<div style="text-align:center">
+    <h3 >Guidence for Different stages of campaign</h3>
+    <p><b>Campaigns status changes in the following stages:</b></p>
+</div>
+
+    <ul style="text-align: left; list-style: inside; padding:25px">
+        
+        <li><b>Stage 1:</b> It is the Campaign creation statge here campaign status will be "Start".</li>
+        <li><b>Stage 2:</b> It is the second stage when the first doantion occurs on the camapign status will be "Running". </li>
+        <li><b>Stage 3:</b> It is the third stage when required amount = collected amount then status will be "Stoped".</li> 
+        <li><b>Stage 4:</b> It is the forth stage when sdb admin deliverd the collected amount status will be "Deliverd".</li>
+        <li><b>Stage 5:</b> It is the fifth stage when NGO will mark campaign close after recieving amount status will be "Closed".</li>
+    </ul>
 <div id="CampaignsContainer" class="container visible">
     <h2>Your Donations</h2>
     <div class="col-md-12 form-group">

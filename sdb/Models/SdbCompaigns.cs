@@ -20,6 +20,7 @@ namespace sdb.Models
 
         public int Id { get; set; }
         [Required(ErrorMessage ="Name is required")]
+        [StringLength(60, MinimumLength = 3)]
         public string Name { get; set; }
         
         public string Image { get; set; }
@@ -27,6 +28,7 @@ namespace sdb.Models
         public string Description { get; set; }
         [Required(ErrorMessage = "Total Amount is required")]
         [RegularExpression(@"^([1-9][0-9]{1,7})$", ErrorMessage = "Total Amount must be between 1 - 99999999.")]
+        [Display(Name = "Total Amount Needed")]
         public long TotalAmountNeeded { get; set; }
         public long CollectedAmount { get; set; }
         public string Status { get; set; }
@@ -45,6 +47,7 @@ namespace sdb.Models
 
         [NotMappedAttribute]
         [BindProperty]
+        [Display(Name = "Campaign Image")]
         public IFormFile CampaignImage { get; set; }
     }
 }

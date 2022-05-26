@@ -85,7 +85,9 @@
                             </td>
 
                             <td>
-                                <a asp-action="EditCampaign" asp-route-id="@item.Id">Edit</a> |
+                               
+                                 
+                                
                                 @if (item.CollectedAmount == 0)
                                 {
                                     <a asp-action="DeleteCampaign" asp-route-id="@item.Id"> Delete </a>
@@ -99,7 +101,9 @@
                                     }
                                     else
                                     {
-                                        <a asp-action="CloseCampaign" asp-route-id="@item.Id"> Close </a>
+                                        <a asp-action="CloseCampaign" asp-route-id="@item.Id"> Close </a> <p>|</p>
+                                        <a asp-action="EditCampaign" asp-route-id="@item.Id">Edit </a> 
+
                                     }
                                 }
 
