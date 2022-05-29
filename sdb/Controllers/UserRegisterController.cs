@@ -42,12 +42,12 @@ namespace sdb.Controllers
         {
             try
             {
-                sdbSystemUsers = _sdbRepository.Add(sdbSystemUsers);
-                if (sdbSystemUsers != null)
+                sdbSystemUsers = _sdbRepository.AddNewUser(sdbSystemUsers);
+                if (sdbSystemUsers.Id != 0)
                 {
                     return "You have successfully registered yourself\nNow Please try login";
                 }
-                return "Error in User registration";
+                return "Error in User registration " + sdbSystemUsers.Address; // Address property contains error message
             }
             catch
             {

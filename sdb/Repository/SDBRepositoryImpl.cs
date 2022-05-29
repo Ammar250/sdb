@@ -281,22 +281,39 @@ namespace sdb.Repository
         {
             try
             {
-                sdbDBContext.SdbSystemUsers.Add(sdbSystemUsers);
-                sdbDBContext.SaveChanges();
+                SdbSystemUsers userAlreadyRegistered = sdbDBContext.SdbSystemUsers.Where(user => user.Email == sdbSystemUsers.Email).FirstOrDefault();
+                if (userAlreadyRegistered == null) // Not Found
+                {
+                    sdbDBContext.SdbSystemUsers.Add(sdbSystemUsers);
+                    sdbDBContext.SaveChanges();
+                }
+                else
+                {
+                    sdbSystemUsers.Id = 0;
+                    sdbSystemUsers.Address = "User Already Registered with same email: " + sdbSystemUsers.Email;
+                }
+
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message.ToString());
-                sdbSystemUsers = null;
+                sdbSystemUsers.Id = 0;
+                sdbSystemUsers.Address = e.Message.ToString();
             }
             return sdbSystemUsers;
         }
 
         public SdbSystemUsers UpdateUser(SdbSystemUsers sdbSystemUsers)
         {
-            sdbDBContext.Entry(sdbSystemUsers).State = EntityState.Modified;
+            SdbSystemUsers existingUser = GetSdbSystemUsersByID(sdbSystemUsers.Id);
+            existingUser.Name = sdbSystemUsers.Name;
+            existingUser.Address = sdbSystemUsers.Address;
+            existingUser.Email = sdbSystemUsers.Email;
+            existingUser.Phone = sdbSystemUsers.Phone;
+
+            sdbDBContext.Entry(existingUser).State = EntityState.Modified;
             sdbDBContext.SaveChanges();
-            return sdbSystemUsers;
+            return existingUser;
         }
 
         public SdbSystemUsers DeleteUser(int userId)

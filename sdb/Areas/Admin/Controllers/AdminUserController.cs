@@ -43,16 +43,6 @@ namespace sdb.Areas.Admin.Controllers
             return View(UserInfo);
         }
 
-        [HttpPost]
-        public IActionResult UpdateCampaignStatus(string Id)
-        {
-            int campID = Convert.ToInt32(Id);
-            SdbCompaigns sdbCamp = _sdbRepository.GetCampaignByID(campID);
-            sdbCamp.Status = SDB_Constants.CAMPAIGN_DELIVERED_STATUS;
-            sdbCamp = _sdbRepository.UpdateCampaign(sdbCamp);
-            return Json(new { message = "Updated" });
-
-        }
         [HttpGet]
         public ActionResult Create()
         {
@@ -68,8 +58,12 @@ namespace sdb.Areas.Admin.Controllers
                 sdbSystemUsers.CreatedBy = sdbSystemUsers.Name;
                 sdbSystemUsers.UpdatedAt = DateTime.Now;
                 sdbSystemUsers.UpdatedBy = sdbSystemUsers.Name;
-                _sdbRepository.AddNewUser(sdbSystemUsers);
-                return Json(new { formStatus = "Success" });
+                sdbSystemUsers = _sdbRepository.AddNewUser(sdbSystemUsers);
+                if (sdbSystemUsers.Id != 0)
+                {
+                    return Json(new { formStatus = "Success" });
+                }
+                return Json(new { formStatus = sdbSystemUsers.Address });
             }
 
             return PartialView(sdbSystemUsers);
@@ -87,18 +81,20 @@ namespace sdb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult EditUser(SdbSystemUsers sdbSystemUsers)
         {
-            
-            
-            var userInfo = HttpContext.Session.GetString("loggedInUser");
-            sdbSystemUsers.Active = 1;
-            sdbSystemUsers.CreatedAt = DateTime.Now;
-            sdbSystemUsers.CreatedBy = sdbSystemUsers.Name;
-            sdbSystemUsers.UpdatedAt = DateTime.Now;
-            sdbSystemUsers.UpdatedBy = sdbSystemUsers.Name;
-            _sdbRepository.UpdateUser(sdbSystemUsers);
-            
-
-            return RedirectToAction("Index", "AdminUser");
+            if (ModelState.IsValid)
+            {
+                var loggedInUserJSON = HttpContext.Session.GetString("loggedInUser");
+                if (loggedInUserJSON != null)
+                {
+                    SdbSystemUsers loggedInUser = JsonSerializer.Deserialize<SdbSystemUsers>(loggedInUserJSON);
+                    sdbSystemUsers.UpdatedAt = DateTime.Now;
+                    sdbSystemUsers.UpdatedBy = loggedInUser.Name;
+                    _sdbRepository.UpdateUser(sdbSystemUsers);
+                    return Json(new { formStatus = "Success" });
+                }
+                
+            }
+            return View(sdbSystemUsers);
         }
         [HttpGet]
         public IActionResult DeleteUser(string Id)

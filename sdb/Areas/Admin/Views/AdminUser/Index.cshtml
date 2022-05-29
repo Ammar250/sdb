@@ -35,9 +35,6 @@
                             Name
                         </th>
                         <th>
-                            Password
-                        </th>
-                        <th>
                             Address
                         </th>
                         <th>
@@ -65,9 +62,6 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Password)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.Address)
                             </td>
                             <td>
@@ -82,7 +76,7 @@
 
                             <td>
                                 <input type="button" onclick="UserEditAjaxCall('@item.Id'); return false;" value="Edit" class="btn btn-success bg-theme-colored" />
-                                <a disabled="true" asp-action= "DeleteUser" asp-route-id="@item.Id"> Delete </a> 
+                                <a style="pointer-events:none" asp-action= "DeleteUser" asp-route-id="@item.Id"> Delete </a> 
 
                             </td>
                         </tr>
@@ -145,6 +139,33 @@
                     console.log("Success Response: ");
                     console.log(response);
                     console.log(response.formStatus);
+                    if (response.formStatus != "Success") {
+                        $("#errors").html(response.formStatus);
+                    }else if(response.formStatus === "Success") {
+                        closeAddUserViewForm();
+                    } else {
+                        $("#addUserFormDIV").remove();
+                        $("#divAddEditView").html(response);
+                    }
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+        }
+
+        function UpdateUserAjaxCall() {
+            var model = new FormData($('form').get(0));
+            $.ajax({
+                url: "/Admin/AdminUser/EditUser",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: model,
+                success: function (response) {
+                    console.log("Success Response: ");
+                    console.log(response);
+                    console.log(response.formStatus);
                     if (response.formStatus === "Success") {
                         closeAddUserViewForm();
                     } else {
@@ -156,6 +177,26 @@
                     alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
                 }
             });
+        }
+
+        function UserEditAjaxCall(campId) {
+            //console.log(campId);
+            $.ajax({
+                url: "/Admin/AdminUser/EditUser",
+                type: "GET",
+                data: { Id: campId },
+                success: function (response) {
+                    //console.log("Success Response: ");
+                    //console.log(response);
+                    $("#divAddEditView").html(response);
+                    showAddUserViewForm();
+
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
         }
         
         function showAddUserViewForm() {
@@ -178,26 +219,6 @@
             $("#UsersContainer").addClass("visible");
             $("#UsersContainer").removeClass("invisible");
             loadUsers();
-
-        }
-
-        function UserEditAjaxCall(campId) {
-            //console.log(campId);
-            $.ajax({
-                url: "/Admin/AdminUser/EditUser",
-                type: "GET",
-                data: { Id: campId },
-                success: function (response) {
-                    //console.log("Success Response: ");
-                    //console.log(response);
-                    $("#divUserDetailsView").html(response);
-                    showUserDetailsViewForm();
-
-                },
-                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
-                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
-                }
-            });
 
         }
 

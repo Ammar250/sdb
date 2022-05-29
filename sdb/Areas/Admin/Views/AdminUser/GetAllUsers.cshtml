@@ -7,9 +7,6 @@
                             Name
                         </th>
                         <th>
-                            Password
-                        </th>
-                        <th>
                             Address
                         </th>
                         <th>
@@ -37,9 +34,6 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Password)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.Address)
                             </td>
                             <td>
@@ -53,8 +47,8 @@
                             </td>
 
                             <td>
-                                <a asp-action= "EditUser"   asp-route-id="@item.Id">Edit </a> 
-                                <a disabled="true" asp-action= "DeleteUser" asp-route-id="@item.Id"> Delete </a> 
+                                <input type="button" onclick="UserEditAjaxCall('@item.Id'); return false;" value="Edit" class="btn btn-success bg-theme-colored" /> 
+                                <a style="pointer-events:none" asp-action= "DeleteUser" asp-route-id="@item.Id"> Delete </a> 
 
                             </td>
                         </tr>
