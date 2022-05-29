@@ -236,5 +236,76 @@ namespace sdb.Repository
             }
             return null;
         }
+
+        public SdbSystemUsers GetSdbSystemUsersByID(int userID)
+        {
+            var userObj = sdbDBContext.SdbSystemUsers.Where(camp => camp.Id == userID).FirstOrDefault();
+            return userObj;
+        }
+
+        
+        List<SdbSystemUsers> ISDBRepository.GetAllSdbSystemUsers()
+        {
+            try
+            {
+                var allUserData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
+                var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
+                List<SdbSystemUsers> UserInfo = new List<SdbSystemUsers>();
+
+                UserInfo = (from user in allUserData
+
+                            select new SdbSystemUsers
+                            {
+                                Id = user.Id,
+                                Name = user.Name,
+                                Password = user.Password,
+                                Address = user.Address,
+                                Email = user.Email,
+                                Phone = user.Phone,
+                                Active = user.Active,
+                                UserRole = user.UserRole
+
+                            }
+                                         ).ToList();
+
+                return UserInfo;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+            }
+            return null;
+        }
+
+        public SdbSystemUsers AddNewUser(SdbSystemUsers sdbSystemUsers)
+        {
+            try
+            {
+                sdbDBContext.SdbSystemUsers.Add(sdbSystemUsers);
+                sdbDBContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+                sdbSystemUsers = null;
+            }
+            return sdbSystemUsers;
+        }
+
+        public SdbSystemUsers UpdateUser(SdbSystemUsers sdbSystemUsers)
+        {
+            sdbDBContext.Entry(sdbSystemUsers).State = EntityState.Modified;
+            sdbDBContext.SaveChanges();
+            return sdbSystemUsers;
+        }
+
+        public SdbSystemUsers DeleteUser(int userId)
+        {
+            SdbSystemUsers sdbSystemUsers = sdbDBContext.SdbSystemUsers.Find(userId); 
+            sdbDBContext.SdbSystemUsers.Remove(sdbSystemUsers);
+            sdbDBContext.SaveChanges();
+            return sdbSystemUsers;
+        }
     }
+    
 }

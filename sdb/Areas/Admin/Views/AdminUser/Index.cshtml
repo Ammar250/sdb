@@ -1,0 +1,220 @@
+﻿@model IEnumerable<sdb.Models.SdbSystemUsers>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+ }
+<div class="col-md-12 form-group">
+    <div class="container invisible" id="divUserDetailsView">
+    </div>
+</div>
+<div class="col-md-12 form-group">
+    <div class="container invisible" id="divAddEditView">
+
+    </div>
+    @*<a class="btn btn-success bg-theme-colored" style="margin-bottom:10px" asp-action="AddOrEdit"><i class="fa fa-plus"></i> Add New</a>*@
+
+
+</div>
+<div id="UsersContainer" class="container visible">
+    <h2>Smart Donation Box Users List</h2>
+    <div class="col-md-12 form-group">
+        <form action="/Admin/AdminUser/Create" method="get"
+              data-ajax="true"
+              data-ajax-update="#divAddEditView"
+              data-ajax-success="showAddUserViewForm()">
+            <button type="submit" class="btn btn-success bg-theme-colored"><i class="fa fa-plus"></i>Add New</button>
+
+
+        </form>
+        <div id="userTableDIV">
+            <table id="Usertbl" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Password
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone
+                        </th>
+                        <th>
+                            User Role
+                        </th>
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        // If a campaign does not have a photo display noImageCampaign.jpg
+                        <tr>
+                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserRole)
+                            </td>
+
+                            <td>
+                                <input type="button" onclick="UserEditAjaxCall('@item.Id'); return false;" value="Edit" class="btn btn-success bg-theme-colored" />
+                                <a disabled="true" asp-action= "DeleteUser" asp-route-id="@item.Id"> Delete </a> 
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#Usertbl").DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                responsive: {
+                    details: false
+                }
+            });
+
+        });
+
+        function loadUsers() {
+            $.ajax({
+                url: "/Admin/AdminUser/GetAllUsers",
+                type: "GET",
+                success: function (response) {
+                    console.log("Success Response: ");
+                    //console.log(response);
+                    $("#userTableDIV").html(response);
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
+        }
+
+        function AddUserPostAjaxCall() {
+            //let Name = $("#Name").val();
+            //let Image = $("#Image").val();
+            //let Description = $("#Description").val();
+            //let TotalAmountNeeded = $("#TotalAmountNeeded").val();
+            var model = new FormData($('form').get(0));
+            $.ajax({
+                url: "/Admin/AdminUser/Create",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: model,
+                success: function (response) {
+                    console.log("Success Response: ");
+                    console.log(response);
+                    console.log(response.formStatus);
+                    if (response.formStatus === "Success") {
+                        closeAddUserViewForm();
+                    } else {
+                        $("#addUserFormDIV").remove();
+                        $("#divAddEditView").html(response);
+                    }
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+        }
+        
+        function showAddUserViewForm() {
+            $("#divAddEditView").addClass("visible");
+            $("#divAddEditView").removeClass("invisible");
+
+
+            $("#UsersContainer").addClass("invisible");
+            $("#UsersContainer").removeClass("visible");
+
+
+        }
+
+        function closeAddUserViewForm() {
+            $("#divAddEditView").addClass("invisible");
+            $("#divAddEditView").removeClass("visible");
+            $("#addUserFormDIV").remove();
+
+
+            $("#UsersContainer").addClass("visible");
+            $("#UsersContainer").removeClass("invisible");
+            loadUsers();
+
+        }
+
+        function UserEditAjaxCall(campId) {
+            //console.log(campId);
+            $.ajax({
+                url: "/Admin/AdminUser/EditUser",
+                type: "GET",
+                data: { Id: campId },
+                success: function (response) {
+                    //console.log("Success Response: ");
+                    //console.log(response);
+                    $("#divUserDetailsView").html(response);
+                    showUserDetailsViewForm();
+
+                },
+                error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage
+                    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                }
+            });
+
+        }
+
+        function showUserDetailsViewForm() {
+            $("#divUserDetailsView").addClass("visible");
+            $("#divUserDetailsView").removeClass("invisible");
+
+
+            $("#UsersContainer").addClass("invisible");
+            $("#UsersContainer").removeClass("visible");
+
+        }
+
+
+
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

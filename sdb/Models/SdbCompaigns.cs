@@ -1,6 +1,7 @@
 ﻿using DotLiquid.Tags;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -49,5 +50,8 @@ namespace sdb.Models
         [BindProperty]
         [Display(Name = "Campaign Image")]
         public IFormFile CampaignImage { get; set; }
+       
+        //[NotMappedAttribute]
+        //public SelectList CampaignList { get; set; }
     }
 }

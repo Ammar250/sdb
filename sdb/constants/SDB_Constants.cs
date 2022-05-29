@@ -16,5 +16,6 @@ namespace sdb.constants
         public static string USER_ROLE_NGO = "NGO";
         public static string USER_ROLE_DONOR = "DONOR";
         public static string USER_ROLE_ADMIN = "ADMIN";
+        public static string USER_ROLE_ANONYMUS = "ANONYMUS";
     }
 }

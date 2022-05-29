@@ -22,6 +22,14 @@ namespace sdb.Repository
         SdbCompaigns UpdateCampaign(SdbCompaigns sdbCompaigns);
         SdbCompaigns DeleteCampaign(int campaignID);
         SdbCompaigns GetCampaignByID(int campaignID);
+        SdbSystemUsers GetSdbSystemUsersByID(int userID);
+        List<SdbSystemUsers> GetAllSdbSystemUsers();
+        SdbSystemUsers AddNewUser(SdbSystemUsers sdbSystemUsers);
+        SdbSystemUsers UpdateUser(SdbSystemUsers sdbSystemUsers);
+        SdbSystemUsers DeleteUser(int userID);
+
+
+
 
         // Transaction for record in SDB query methods
         SdbTransaction AddNewTransaction(SdbTransaction sdbTransaction);
