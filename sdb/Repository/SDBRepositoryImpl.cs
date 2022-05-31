@@ -266,7 +266,7 @@ namespace sdb.Repository
                                 UserRole = user.UserRole
 
                             }
-                                         ).ToList();
+                                       ).ToList();
 
                 return UserInfo;
             }
@@ -322,6 +322,67 @@ namespace sdb.Repository
             sdbDBContext.SdbSystemUsers.Remove(sdbSystemUsers);
             sdbDBContext.SaveChanges();
             return sdbSystemUsers;
+        }
+
+        List<SdbTransaction> ISDBRepository.GetAllSdbTransactions()
+        {
+            //var allTransactionsData = sdbDBContext.SdbTransaction.ToList<SdbTransaction>();
+            //var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
+            //List<SdbTransaction> transactionInfoWithUser = new List<SdbTransaction>();
+
+            //transactionInfoWithUser = (from transaction in allTransactionsData
+            //                           join user in systemUsersData on transaction.DonorId equals user.Id
+            //                        select new SdbTransaction
+            //                        {
+            //                            Id = transaction.Id,
+            //                            DonationAmount = transaction.DonationAmount,
+            //                            Active = transaction.Active
+
+            //                        }).ToList();
+
+            //return transactionInfoWithUser;
+            try
+            {
+                var allCampaignsData = sdbDBContext.SdbCompaigns.ToList<SdbCompaigns>();
+                var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
+                List<SdbCompaigns> campaignInfoWithUser = new List<SdbCompaigns>();
+
+                campaignInfoWithUser = (from campaign in allCampaignsData
+                                        join user in systemUsersData on campaign.sdbSystemUsersId equals user.Id
+                                        select new SdbCompaigns
+                                        {
+                                            Id = campaign.Id,
+                                            Name = campaign.Name,
+                                            Image = campaign.Image,
+                                            Description = campaign.Description,
+                                            TotalAmountNeeded = campaign.TotalAmountNeeded,
+                                            CollectedAmount = campaign.CollectedAmount,
+                                            Status = campaign.Status,
+                                            Active = campaign.Active,
+                                            CompaignPurpose = campaign.CompaignPurpose,
+                                            sdbSystemUsers = user
+                                        }).ToList();
+                var transactionData = sdbDBContext.SdbTransaction.ToList<SdbTransaction>();
+                List<SdbTransaction> transactionInfoWithCampaign = new List<SdbTransaction>();
+
+                transactionInfoWithCampaign = (from campaign in allCampaignsData
+                                               join trans in transactionData on campaign.Id equals trans.CompaignId
+                                              
+                                               group trans by trans.CompaignId into g
+                                               select new SdbTransaction
+                                               {
+                                                   Id = g.FirstOrDefault().Id,
+                                                   DonationAmount = g.Sum(x => x.DonationAmount),
+                                                   Compaign = g.FirstOrDefault().Compaign
+                                               }).ToList();
+
+                return transactionInfoWithCampaign;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message.ToString());
+            }
+            return null;
         }
     }
     

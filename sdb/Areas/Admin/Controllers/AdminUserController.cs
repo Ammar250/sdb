@@ -137,5 +137,26 @@ namespace sdb.Areas.Admin.Controllers
             return PartialView(UserInfo);
 
         }
+        public IActionResult TrackDonation()
+        {
+            var loggedInUser = HttpContext.Session.GetString("loggedInUser");
+            if (loggedInUser == null)
+            {
+                return RedirectToAction("Index", "Home"); // User does not logged in Please login
+            }
+            SdbSystemUsers sdbSystemUsers = new SdbSystemUsers();
+            List<SdbTransaction> Transationinfo = new List<SdbTransaction>();
+
+            loggedInUser = HttpContext.Session.GetString("loggedInUser");
+            if (loggedInUser != null)
+            {
+                sdbSystemUsers = JsonSerializer.Deserialize<SdbSystemUsers>(loggedInUser);
+                if (sdbSystemUsers.UserRole.Equals(SDB_Constants.USER_ROLE_ADMIN))
+                {
+                    Transationinfo = _sdbRepository.GetAllSdbTransactions();
+                }
+            }
+            return View(Transationinfo);
+        }
     }
  }

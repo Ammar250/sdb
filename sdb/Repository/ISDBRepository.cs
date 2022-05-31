@@ -28,6 +28,8 @@ namespace sdb.Repository
         SdbSystemUsers UpdateUser(SdbSystemUsers sdbSystemUsers);
         SdbSystemUsers DeleteUser(int userID);
 
+        List<SdbTransaction> GetAllSdbTransactions();
+
 
 
 
