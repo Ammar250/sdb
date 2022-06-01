@@ -367,13 +367,11 @@ namespace sdb.Repository
 
                 transactionInfoWithCampaign = (from campaign in allCampaignsData
                                                join trans in transactionData on campaign.Id equals trans.CompaignId
-                                              
-                                               group trans by trans.CompaignId into g
                                                select new SdbTransaction
                                                {
-                                                   Id = g.FirstOrDefault().Id,
-                                                   DonationAmount = g.Sum(x => x.DonationAmount),
-                                                   Compaign = g.FirstOrDefault().Compaign
+                                                   Id = trans.Id,
+                                                   DonationAmount = trans.DonationAmount,
+                                                   Compaign = trans.Compaign
                                                }).ToList();
 
                 return transactionInfoWithCampaign;
