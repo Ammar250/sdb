@@ -284,6 +284,11 @@ namespace sdb.Repository
                 SdbSystemUsers userAlreadyRegistered = sdbDBContext.SdbSystemUsers.Where(user => user.Email == sdbSystemUsers.Email).FirstOrDefault();
                 if (userAlreadyRegistered == null) // Not Found
                 {
+                    sdbSystemUsers.Active = 1;
+                    sdbSystemUsers.CreatedAt = DateTime.Now;
+                    sdbSystemUsers.CreatedBy = sdbSystemUsers.Name;
+                    sdbSystemUsers.UpdatedAt = DateTime.Now;
+                    sdbSystemUsers.UpdatedBy = sdbSystemUsers.Name;
                     sdbDBContext.SdbSystemUsers.Add(sdbSystemUsers);
                     sdbDBContext.SaveChanges();
                 }
