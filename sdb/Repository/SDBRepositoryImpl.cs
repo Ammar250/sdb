@@ -331,42 +331,12 @@ namespace sdb.Repository
 
         List<SdbTransaction> ISDBRepository.GetAllSdbTransactions()
         {
-            //var allTransactionsData = sdbDBContext.SdbTransaction.ToList<SdbTransaction>();
-            //var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
-            //List<SdbTransaction> transactionInfoWithUser = new List<SdbTransaction>();
-
-            //transactionInfoWithUser = (from transaction in allTransactionsData
-            //                           join user in systemUsersData on transaction.DonorId equals user.Id
-            //                        select new SdbTransaction
-            //                        {
-            //                            Id = transaction.Id,
-            //                            DonationAmount = transaction.DonationAmount,
-            //                            Active = transaction.Active
-
-            //                        }).ToList();
-
-            //return transactionInfoWithUser;
+            
             try
             {
                 var allCampaignsData = sdbDBContext.SdbCompaigns.ToList<SdbCompaigns>();
                 var systemUsersData = sdbDBContext.SdbSystemUsers.ToList<SdbSystemUsers>();
-                List<SdbCompaigns> campaignInfoWithUser = new List<SdbCompaigns>();
 
-                campaignInfoWithUser = (from campaign in allCampaignsData
-                                        join user in systemUsersData on campaign.sdbSystemUsersId equals user.Id
-                                        select new SdbCompaigns
-                                        {
-                                            Id = campaign.Id,
-                                            Name = campaign.Name,
-                                            Image = campaign.Image,
-                                            Description = campaign.Description,
-                                            TotalAmountNeeded = campaign.TotalAmountNeeded,
-                                            CollectedAmount = campaign.CollectedAmount,
-                                            Status = campaign.Status,
-                                            Active = campaign.Active,
-                                            CompaignPurpose = campaign.CompaignPurpose,
-                                            sdbSystemUsers = user
-                                        }).ToList();
                 var transactionData = sdbDBContext.SdbTransaction.ToList<SdbTransaction>();
                 List<SdbTransaction> transactionInfoWithCampaign = new List<SdbTransaction>();
 
@@ -376,7 +346,9 @@ namespace sdb.Repository
                                                {
                                                    Id = trans.Id,
                                                    DonationAmount = trans.DonationAmount,
-                                                   Compaign = trans.Compaign
+                                                   CreatedAt = trans.CreatedAt,
+                                                   Compaign = trans.Compaign,
+                                                   Donor = trans.Donor
                                                }).ToList();
 
                 return transactionInfoWithCampaign;

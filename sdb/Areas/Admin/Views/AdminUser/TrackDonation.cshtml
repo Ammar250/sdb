@@ -8,15 +8,15 @@
     <h2>All Donations Record</h2>
     <div class="col-md-12 form-group">
         <div id="donationTableDIV">
-            <table id="donationtbl" class="table table-striped table-bordered" style="width:100%">
+            <table id="Campaigntbl" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
-                       
+
                         <th>
                             Title
                         </th>
                         <th>
-                            User
+                            Campaign User
                         </th>
                         <th>
                             Total Amount Needed
@@ -25,37 +25,50 @@
                             Collected Amount
                         </th>
                         <th>
+                            Donor Name
+                        </th>
+                        <th>
                             Donor Contribution
+                        </th>
+                        <th>
+                            Donation Date
                         </th>
                         <th>
                             Status
                         </th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                       <tr>
-                        
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Compaign.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Compaign.sdbSystemUsers.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Compaign.TotalAmountNeeded)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Compaign.CollectedAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DonationAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Compaign.Status)
-                            </td>
-                        </tr>
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Compaign.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Compaign.sdbSystemUsers.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Compaign.TotalAmountNeeded)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Compaign.CollectedAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Donor.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DonationAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Compaign.Status)
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

@@ -9,7 +9,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control"  placeholder="Enter Campaign Name"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group row">
@@ -19,7 +19,7 @@
                         @*Photo property type is IFormFile, so ASP.NET Core
                             automatically creates a FileUpload control  *@
                         <input asp-for="CampaignImage" class="custom-file-input form-control">
-                        <label class="custom-file-label">Click here to change photo</label>
+                        <label class="custom-file-label">Click here to add photo</label>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 </div>*@
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" ></textarea>
+                <textarea asp-for="Description" class="form-control" placeholder="Enter Campaign Description" ></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

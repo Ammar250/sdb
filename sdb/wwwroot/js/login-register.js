@@ -151,7 +151,7 @@ $(document).ready(function () {
     $("#txtName").focusout(function () {
 
         userName = $("#txtName").val();
-        regualrExp = /^[a-zA-Z](_(?!(\.|_))|\.(?!(_|\.))|( )|[a-zA-Z]){3,50}[a-zA-Z]$/;
+        regualrExp = /^[a-zA-Z](_(?!(\.|_))|\.(?!(_|\.))|( )|[a-zA-Z]){1,50}[a-zA-Z]$/;
         isValidUserName = checkRegularExpressionControl(userName, "#userNameSpan", regualrExp, "User Name Must Be Start With Letter and (3-50) characters");
 
     });
@@ -160,7 +160,7 @@ $(document).ready(function () {
 
         userPass = $("#txtPassword").val();
         regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
-        isValidUserPass = checkRegularExpressionControl(userPass, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
+        isValidUserPass = checkRegularExpressionControl(userPass, "#registerpasswordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
     });
 
     $("#txt_password_confirmation").focusout(function () {
@@ -237,7 +237,7 @@ function registerAjax() {
     console.log(isValidUserName + "," + isValidUserAddress + "," + isValidUserCntct + "," + isValidUserEmail + "," + isValidUserPass + "," + isConfirmPass );
     if (!isValidUserName) {
         userName = $("#txtName").val();
-        regualrExp = /^[a-zA-Z](_(?!(\.|_))|\.(?!(_|\.))|( )|[a-zA-Z]){3,50}[a-zA-Z]$/;
+        regualrExp = /^[a-zA-Z](_(?!(\.|_))|\.(?!(_|\.))|( )|[a-zA-Z]){1,50}[a-zA-Z]$/;
         isValidUserName = checkRegularExpressionControl(userName, "#userNameSpan", regualrExp, "User Name Must Be Start With Letter and (3-50) characters");
     } else if (!isValidUserAddress) {
         userAddress = $("#txtAddress").val();
@@ -254,7 +254,7 @@ function registerAjax() {
     } else if (!isValidUserPass) {
         userPass = $("#txtPassword").val();
         regualrExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
-        isValidUserPass = checkRegularExpressionControl(userPass, "#passwordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
+        isValidUserPass = checkRegularExpressionControl(userPass, "#registerpasswordSpan", regualrExp, "Password Must have One LowerCae,One UpperCase and digits and Range (8-15)");
     } else if (!isConfirmPass) {
         $("#confirmPassSpan").html("Re-Type Password").show().fadeOut(20000);
     }
