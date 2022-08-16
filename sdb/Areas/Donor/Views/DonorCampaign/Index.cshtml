@@ -162,6 +162,12 @@
             let Email = $("#Email").val();
             let campaignId = $("#Id").val();
             //console.log(Total);
+            //let requiredAmount = $("requiredAmount").val();
+            //console.log(requiredAmount);
+            //if (Total > requiredAmount) {
+            //    alert("Total Amount must be this")
+            //    return;
+            //}
             $.ajax({
                 url: "/Donor/DonorCampaign/Charge",
                 type: "POST",
